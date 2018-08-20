@@ -41,16 +41,22 @@ while(True):
 
         # Draw axis names
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(output, 'Altitude', (th3.shape[1] // 2 + 4, 10), font, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-        cv2.putText(output, 'Azimuth', (0, th3.shape[0]//2 - 4), font, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(output, 'Altitude', (th3.shape[1] // 2 + 10, 10), font, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(output, 'Azimuth', (0, th3.shape[0]//2 - 10), font, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
         # Azimuth axis
         cv2.line(output, (0, th3.shape[0]//2), (th3.shape[1], th3.shape[0]//2), (0, 0, 255), 2)
         # Altitude axis
         cv2.line(output, (th3.shape[1] // 2, 0), (th3.shape[1] // 2, th3.shape[0]), (0, 255, 255), 2)
 
-        # Distance from centre of image to centre 
-
+        # Distance from centre of image to centre
+        distAlt = th3.shape[0]//2 - circles[0][1]
+        distAzi = th3.shape[1]//2 - circles[0][0]
+        #Draw distance text
+        cv2.putText(output, 'DistAlt='+str(distAlt)+"pixels",
+                    (10, th3.shape[0]-20), font, 0.7, (0, 255, 255), 1, cv2.LINE_AA)
+        cv2.putText(output, 'DistAzi=' + str(distAzi) + "pixels",
+                    (10, th3.shape[0] - 40), font, 0.7, (0, 255, 255), 1, cv2.LINE_AA)
         # show the output image
         cv2.imshow("output", np.hstack([frame, output]))
         #cv2.waitKey(0)

@@ -1,13 +1,17 @@
 import numpy as np
 import cv2
 import time
-from utils.utils import get_mean, send_status_signal, num_steps
+from utils.utils import get_mean, num_steps
+from serial_communication.serial import create_serial_port,\
+    create_step_query,create_singal_query,write_query
 from matplotlib import pyplot as plt
 
 num_pics = 0
 cap = cv2.VideoCapture(1)
 list_centers = []
-ERROR_SIGNAL = 0
+
+# Open port to communicate with 328p
+port = create_serial_port()
 
 while(True):
     #frame = cv2.imread('sol3.jpg')
@@ -63,9 +67,10 @@ while(True):
             # Altitude axis
             cv2.line(output, (th3.shape[1] // 2, 0), (th3.shape[1] // 2, th3.shape[0]), (0, 255, 255), 2)
 
-            # Distance from centre of image to centre
+            # Distance from centre of image to centre of sun
             distAlt = th3.shape[0]//2 - circles[0][1]
             distAzi = th3.shape[1]//2 - circles[0][0]
+            list_centers.append((distAzi,distAlt))
 
             # Draw distance text
             cv2.putText(output, 'DistAlt='+str(distAlt)+"pixels",
@@ -81,10 +86,10 @@ while(True):
     else:
         # Send the corresponding signal
         if len(list_centers) == 0:
-            send_status_signal(0)
+            write_query(port, create_singal_query(0))
         else:
-            num_steps(get_mean(list_centers))
-            send_status_signal(1)
+            write_query(port, create_singal_query(1))
+            write_query(port, create_step_query(num_steps(get_mean(list_centers))))
 
         # Reset variables
         list_centers = []

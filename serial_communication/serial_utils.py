@@ -42,9 +42,14 @@ def close_port(port):
 if __name__ == "__main__":
     port = create_serial_port()
     time.sleep(3)
-    write_query(port, create_signal_query(0))
+    write_query(port, create_signal_query(1))
     list_centers = [(-120, 80), (-121, 81), (-119, 79)]
     time.sleep(0.01) # 10 miliseconds
     write_query(port, create_step_query(num_steps(np.mean(list_centers, axis=0)), "az"))
     time.sleep(3)
+    list_centers = [(-120, 80), (-121, 81), (-119, 79)]
+    write_query(port, create_step_query(num_steps(np.mean(list_centers, axis=0)), "az"))
+    time.sleep(2)
+    write_query(port, create_signal_query(0))
+    time.sleep(2)
     close_port(port)

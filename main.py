@@ -2,8 +2,8 @@ import numpy as np
 import cv2
 import time
 from utils.utils import get_mean, num_steps
-from serial_communication.serial import create_serial_port,\
-    create_step_query,create_singal_query,write_query
+from serial_communication.serial_utils import create_serial_port,\
+    create_step_query,create_signal_query,write_query,close_port
 from matplotlib import pyplot as plt
 
 num_pics = 0
@@ -37,12 +37,12 @@ while(True):
     # th3 = cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
     #         cv2.THRESH_BINARY,111,2)
     cv2.imshow('frame', th3)
-    print(th3.shape)
+    #print(th3.shape)
     rows = gray.shape[1]
     circles = cv2.HoughCircles(th3, cv2.HOUGH_GRADIENT, 1, rows / 4,
                                param1=10, param2=15,
                                minRadius=40, maxRadius=80)
-    print(circles)
+    #print(circles)
 
     if num_pics < 5:
         # ensure at least some circles were found
@@ -84,12 +84,14 @@ while(True):
             print("No circle")
             cv2.imshow('frame', th3)
     else:
+        time.sleep(1)
         # Send the corresponding signal
         if len(list_centers) == 0:
-            write_query(port, create_singal_query(0))
+            write_query(port, create_signal_query(0))
         else:
-            write_query(port, create_singal_query(1))
-            write_query(port, create_step_query(num_steps(get_mean(list_centers))))
+            write_query(port, create_signal_query(1))
+            write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
+            write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
 
         # Reset variables
         list_centers = []
@@ -99,6 +101,7 @@ while(True):
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# When everything done, release the capture
+# When everything done, release the capture and port
+close_port(port)
 cap.release()
 cv2.destroyAllWindows()

@@ -1,13 +1,14 @@
 import numpy as np
 
+precision = 0.04167
+steps_per_grade = 1
 
 def get_mean(distances):
     return np.mean(distances, axis=0)
 
 
 def num_steps(mean_dist):
-    print(mean_dist[0])
-    print(mean_dist[1])
+    return int(precision*mean_dist[0]/steps_per_grade), int(precision*mean_dist[1]/steps_per_grade)
 
 
 if __name__ == "__main__":

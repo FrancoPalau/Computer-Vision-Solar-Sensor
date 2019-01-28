@@ -11,7 +11,7 @@ cap = cv2.VideoCapture(1)
 list_centers = []
 
 # Open port to communicate with 328p
-#port = create_serial_port()
+port = create_serial_port()
 
 while(True):
     #frame = cv2.imread('sol5.jpg')
@@ -32,15 +32,15 @@ while(True):
     # plt.hist(th3.ravel(), 256, [0, 256]);
     # plt.show()
 
-    ret, th3 = cv2.threshold(gray, 245, 255, cv2.THRESH_BINARY)
+    ret, th3 = cv2.threshold(gray, 250, 255, cv2.THRESH_BINARY)
 
     cv2.imshow('frame', th3)
 
     rows = gray.shape[1]
     circles = cv2.HoughCircles(th3, cv2.HOUGH_GRADIENT, 1, rows / 4,
                                param1=10, param2=15,
-                               minRadius=20, maxRadius=80)
-
+                               minRadius=40, maxRadius=80)
+    print(th3.shape)
     if num_pics < 10:
         # ensure at least some circles were found
         if circles is not None:
@@ -54,7 +54,7 @@ while(True):
             # Distance from centre of image to centre of sun
             distAzi = th3.shape[0] // 2 - circles[0][1]
             distAlt = th3.shape[1]//2 - circles[0][0]
-            list_centers.append((distAzi,distAlt))
+            list_centers.append((distAzi, distAlt))
 
             draw_axis(output, th3, distAzi, distAlt)
 
@@ -66,15 +66,15 @@ while(True):
     else:
         # Send the corresponding signal
         if len(list_centers) == 0:
-            #write_query(port, create_signal_query(0))
-            time.sleep(0.5)
+            write_query(port, create_signal_query(0))
+            time.sleep(3)
         else:
-            #write_query(port, create_signal_query(1))
+            write_query(port, create_signal_query(1))
             time.sleep(0.05) # 50 miliseconds to ensure query is read
-            #write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
-            time.sleep(0.05)
-            #write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
-            time.sleep(0.5)
+            write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
+            time.sleep(1) # wait 1 second to ensure azimuth position is reached
+            write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
+            time.sleep(2)
 
         # Reset variables
         list_centers = []
@@ -85,9 +85,9 @@ while(True):
         break
 
 # When everything done, release the capture and port
-#write_query(port, create_signal_query(0))
+write_query(port, create_signal_query(0))
 time.sleep(0.5)
-#close_port(port)
+close_port(port)
 time.sleep(0.5)
 cap.release()
 cv2.destroyAllWindows()

@@ -34,7 +34,6 @@ def write_query(port, query):
     port.write(query.encode())
 
 
-
 def close_port(port):
     port.close()
 

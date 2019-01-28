@@ -3,8 +3,8 @@ import cv2
 
 
 precision = 0.04167
-precision_2 = 0.03125
-grades_per_step = 0.11
+# precision_2 = 0.03125
+grades_per_step = 7.5/16  # Grades per step divided microsteps mode
 
 
 def get_mean(distances):

@@ -7,11 +7,11 @@ from serial_communication.serial_utils import create_serial_port,\
 from matplotlib import pyplot as plt
 
 num_pics = 0
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 list_centers = []
 
 # Open port to communicate with 328p
-port = create_serial_port()
+#port = create_serial_port()
 
 while(True):
     #frame = cv2.imread('sol5.jpg')
@@ -52,8 +52,8 @@ while(True):
             print(circles)
 
             # Distance from centre of image to centre of sun
-            distAlt = th3.shape[0]//2 - circles[0][1]
-            distAzi = th3.shape[1]//2 - circles[0][0]
+            distAzi = th3.shape[0] // 2 - circles[0][1]
+            distAlt = th3.shape[1]//2 - circles[0][0]
             list_centers.append((distAzi,distAlt))
 
             draw_axis(output, th3, distAzi, distAlt)
@@ -66,15 +66,15 @@ while(True):
     else:
         # Send the corresponding signal
         if len(list_centers) == 0:
-            write_query(port, create_signal_query(0))
-            time.sleep(5)
+            #write_query(port, create_signal_query(0))
+            time.sleep(0.5)
         else:
-            write_query(port, create_signal_query(1))
+            #write_query(port, create_signal_query(1))
             time.sleep(0.05) # 50 miliseconds to ensure query is read
-            write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
+            #write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
             time.sleep(0.05)
-            write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
-            time.sleep(5)
+            #write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
+            time.sleep(0.5)
 
         # Reset variables
         list_centers = []
@@ -85,9 +85,9 @@ while(True):
         break
 
 # When everything done, release the capture and port
-write_query(port, create_signal_query(0))
+#write_query(port, create_signal_query(0))
 time.sleep(0.5)
-close_port(port)
+#close_port(port)
 time.sleep(0.5)
 cap.release()
 cv2.destroyAllWindows()

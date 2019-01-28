@@ -29,8 +29,8 @@ def draw_circles(circles, output):
 def draw_axis(output, th3, distAzi, distAlt):
     # Draw axis names
     font = cv2.FONT_HERSHEY_SIMPLEX
-    cv2.putText(output, 'Altitude', (th3.shape[1] // 2 + 10, 10), font, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
-    cv2.putText(output, 'Azimuth', (0, th3.shape[0] // 2 - 10), font, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+    cv2.putText(output, 'Altitude', (th3.shape[0] // 2 + 10, 10), font, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+    cv2.putText(output, 'Azimuth', (0, th3.shape[1] // 2 - 10), font, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
     # Azimuth axis
     cv2.line(output, (0, th3.shape[0] // 2), (th3.shape[1], th3.shape[0] // 2), (0, 0, 255), 2)

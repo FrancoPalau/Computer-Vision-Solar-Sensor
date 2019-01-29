@@ -40,7 +40,7 @@ while(True):
     circles = cv2.HoughCircles(th3, cv2.HOUGH_GRADIENT, 1, rows / 4,
                                param1=10, param2=15,
                                minRadius=40, maxRadius=80)
-    print(th3.shape)
+    # print(th3.shape)
     if num_pics < 10:
         # ensure at least some circles were found
         if circles is not None:
@@ -52,14 +52,17 @@ while(True):
             print(circles)
 
             # Distance from centre of image to centre of sun
-            distAzi = th3.shape[0] // 2 - circles[0][1]
-            distAlt = th3.shape[1]//2 - circles[0][0]
+            # distAzi = th3.shape[0] // 2 - circles[0][1]
+            distAzi = (-1)*(circles[0][1] - th3.shape[0] // 2)
+            # distAlt = th3.shape[1]//2 - circles[0][0]
+            distAlt = (-1)*(circles[0][0] - th3.shape[1] // 2)
             list_centers.append((distAzi, distAlt))
 
             draw_axis(output, th3, distAzi, distAlt)
 
             # show the output image
             cv2.imshow("output", np.hstack([frame, output]))
+
         else:
             print("No circle")
             cv2.imshow('frame', th3)
@@ -67,12 +70,13 @@ while(True):
         # Send the corresponding signal
         if len(list_centers) == 0:
             write_query(port, create_signal_query(0))
-            time.sleep(3)
+            time.sleep(2)
         else:
+
             write_query(port, create_signal_query(1))
             time.sleep(0.05) # 50 miliseconds to ensure query is read
             write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
-            time.sleep(1) # wait 1 second to ensure azimuth position is reached
+            time.sleep(0.05) # wait 1 second to ensure azimuth position is reached
             write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
             time.sleep(2)
 
@@ -83,6 +87,7 @@ while(True):
     # Check for exit-program-signal
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
 
 # When everything done, release the capture and port
 write_query(port, create_signal_query(0))

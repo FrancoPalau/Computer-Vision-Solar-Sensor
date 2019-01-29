@@ -30,9 +30,9 @@
 #define SEG_HORA 3600
 #define SEG_MIN	60
 #define SEG_INF	21600
-#define PASO 0.47
-#define REDUCCION_A	1
-#define REDUCCION_E	1
+#define PASO 7.5
+#define REDUCCION_A	8
+#define REDUCCION_E	16
 #define APAGADO 0
 #define PRENDIDO 1
 

@@ -17,9 +17,9 @@ def create_serial_port():
 
 def create_step_query(num_steps, type):
      if type == "az":
-         return ":SZ" + str(num_steps[0])
+         return ":SZ" + str(num_steps[1]) # le doy lo que se mueve azimuth, entonces le paso la distacia al eje Altitud
      elif type == "al":
-         return ":SE" + str(num_steps[1])
+         return ":SE" + str(num_steps[0])
 
 
 def create_signal_query(signal):

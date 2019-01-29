@@ -114,6 +114,7 @@ ISR(TIMER4_COMPA_vect){
 	if(pE==pasosE)
 	{
 		posE=consignaE;
+		printf("Llegue consignaE\r\n");
 		pE=0;
 		pasosE=0;
 		DESACT_T4;

@@ -4,16 +4,16 @@ import cv2
 
 precision = 0.04167
 # precision_2 = 0.03125
-grades_per_step = 7.5/16  # Grades per step divided microsteps mode
-
+grades_per_step_alt = 7.5/16  # Grades per step divided microsteps mode
+grades_per_step_azi = 7.5/8
 
 def get_mean(distances):
     return np.mean(distances, axis=0)
 
 
 def num_steps(mean_dist):
-    return int(round(precision * mean_dist[0] / grades_per_step)),\
-           int(round(precision * mean_dist[1] / grades_per_step))
+    return int(round(precision * mean_dist[0] / grades_per_step_azi)),\
+           int(round(precision * mean_dist[1] / grades_per_step_alt))
 
 
 def draw_circles(circles, output):

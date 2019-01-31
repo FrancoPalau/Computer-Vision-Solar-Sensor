@@ -9,6 +9,7 @@ from matplotlib import pyplot as plt
 num_pics = 0
 cap = cv2.VideoCapture(1)
 list_centers = []
+SENSOR_ON = False
 
 # Open port to communicate with 328p
 port = create_serial_port()
@@ -52,9 +53,7 @@ while(True):
             # print(circles)
 
             # Distance from centre of image to centre of sun
-            # distAzi = th3.shape[0] // 2 - circles[0][1]
             distAzi = (-1)*(circles[0][1] - th3.shape[0] // 2)
-            # distAlt = th3.shape[1]//2 - circles[0][0]
             distAlt = (-1)*(circles[0][0] - th3.shape[1] // 2)
             list_centers.append((distAzi, distAlt))
 
@@ -69,12 +68,15 @@ while(True):
     else:
         # Send the corresponding signal
         if len(list_centers) == 0:
-            write_query(port, create_signal_query(0))
-            # time.sleep(5)
+            if SENSOR_ON:
+                write_query(port, create_signal_query(0))
+                SENSOR_ON = False
+            time.sleep(5)
         else:
-
-            write_query(port, create_signal_query(1))
-            time.sleep(0.05) # 50 miliseconds to ensure query is read
+            if not SENSOR_ON:
+                write_query(port, create_signal_query(1))
+                SENSOR_ON = True
+                time.sleep(0.05) # 50 miliseconds to ensure query is read
             write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
             time.sleep(0.05) # wait 1 second to ensure azimuth position is reached
             write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
@@ -93,6 +95,5 @@ while(True):
 write_query(port, create_signal_query(0))
 time.sleep(0.5)
 close_port(port)
-time.sleep(0.5)
 cap.release()
 cv2.destroyAllWindows()

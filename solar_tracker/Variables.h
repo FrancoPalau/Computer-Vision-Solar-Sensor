@@ -32,7 +32,7 @@
 #define SEG_INF	21600
 #define PASO 7.5
 #define REDUCCION_A	8
-#define REDUCCION_E	16
+#define REDUCCION_E	8
 #define APAGADO 0
 #define PRENDIDO 1
 

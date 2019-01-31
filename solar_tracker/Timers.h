@@ -14,14 +14,14 @@
 
 #define ACTIVAR_T3	TCCR3B|=(1<<CS31)
 #define DESACT_T3	TCCR3B &=~ (1<<CS31)
-#define ACTIVAR_T4	TCCR4B|=(1<<CS41)
-#define DESACT_T4	TCCR4B &=~ (1<<CS41)
+#define ACTIVAR_T4	TCCR5B|=(1<<CS51)
+#define DESACT_T4	TCCR5B &=~ (1<<CS51)
 #define ACT_INT_T3	TIMSK3 |=(1<<OCIE3A)
 #define DESACT_INT_T3	TIMSK3 &=~ (1<<OCIE3A)
-#define ACT_INT_T4	TIMSK4 |=(1<<OCIE4A)
-#define DESACT_INT_T4	TIMSK4 &=~ (1<<OCIE4A)
+#define ACT_INT_T4	TIMSK5 |=(1<<OCIE5A)
+#define DESACT_INT_T4	TIMSK5 &=~ (1<<OCIE5A)
 #define TIMER3_TOP	TCNT3=OCR3A-1
-#define TIMER4_TOP	TCNT4=OCR4A-1
+#define TIMER4_TOP	TCNT5=OCR5A-1
 
 void inicializarTimer1(){
 	//Timer1 16-bits en modo CTC con frecuencia de 1Hz, Prescaler:1024
@@ -47,7 +47,7 @@ void inicializarTimer3(){
 	TIMSK3 &=~ (1<<OCIE3A);
 	DDRE= (1<<DDE3)|(1<<DDE4);
 }
-
+/*
 void inicializarTimer4(){
 	//Timer4
 	OCR4A = 5000;
@@ -57,7 +57,17 @@ void inicializarTimer4(){
 	TIMSK4 &=~ (1<<OCIE4A);
 	DDRH= (1<<DDH3)|(1<<DDH4);
 }
-
+*/
+void inicializarTimer5(){
+	//Timer5
+	OCR5A = 5000;
+	OCR5B =  (OCR5A>>1) & 0x7fff;						//Como hago un corrimiento a la derecha, me aseguro con 0x7fff que se rellene con 0
+	TCCR5A = (1<<COM5B1) | (1<<WGM50) | (1<<WGM51);		//Configuro Timer
+	TCCR5B = (1<<WGM52) | (1<<WGM53) | (1<<CS51);		//Configuro Timer fast PWM prescaler 8
+	TIMSK5 &=~ (1<<OCIE5A);
+	DDRH= (1<<DDH3);
+	DDRL= (1<<DDL4); // Pin 45
+}
 ISR(TIMER1_COMPA_vect)
 {
 	contador++;
@@ -109,8 +119,9 @@ ISR(TIMER3_COMPA_vect){
 	}
 }
 
-ISR(TIMER4_COMPA_vect){
+ISR(TIMER5_COMPA_vect){
 	pE++;
+	printf("Entre consignaE\r\n");
 	if(pE==pasosE)
 	{
 		posE=consignaE;

@@ -49,7 +49,7 @@ while(True):
 
             draw_circles(circles, output)
 
-            print(circles)
+            # print(circles)
 
             # Distance from centre of image to centre of sun
             # distAzi = th3.shape[0] // 2 - circles[0][1]
@@ -61,7 +61,7 @@ while(True):
             draw_axis(output, th3, distAzi, distAlt)
 
             # show the output image
-            cv2.imshow("output", np.hstack([frame, output]))
+            cv2.imshow("output", np.hstack([output]))
 
         else:
             print("No circle")
@@ -70,7 +70,7 @@ while(True):
         # Send the corresponding signal
         if len(list_centers) == 0:
             write_query(port, create_signal_query(0))
-            time.sleep(2)
+            # time.sleep(5)
         else:
 
             write_query(port, create_signal_query(1))
@@ -78,7 +78,7 @@ while(True):
             write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
             time.sleep(0.05) # wait 1 second to ensure azimuth position is reached
             write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
-            time.sleep(2)
+            time.sleep(5)
 
         # Reset variables
         list_centers = []

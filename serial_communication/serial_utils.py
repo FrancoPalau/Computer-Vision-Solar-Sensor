@@ -7,7 +7,7 @@ def create_serial_port():
     # Create port
     port = serial.Serial()
     # Configuration
-    port.baudrate = 57600
+    port.baudrate = 115200
     port.timeout = 2.0
     port.port = 'COM3'
     # Finally, open port

@@ -14,7 +14,7 @@ int main(void)
 	inicializarTimer1();
 	inicializarTimer2();
 	inicializarTimer3();
-	inicializarTimer4();
+	inicializarTimer5();
 	RTC_Init();
 	DESACT_T3;
 	DESACT_T4;
@@ -60,7 +60,6 @@ int main(void)
 					consignaA=atof(azimuth);
 					consignaE=atof(elevacion);
 					printf("Azimuth:%f---Elevacion:%f\r\n",consignaA,consignaE);
-					printf("cuenta:%f\r\n",(fabs(consignaA-posA)*REDUCCION_A/PASO));
 					pasosA=(int)(fabs(consignaA-posA)*REDUCCION_A/PASO);
 					pasosE=(int)(fabs(consignaE-posE)*REDUCCION_E/PASO);
 					printf("Pasos A: %d, Pasos E: %d\r\n",pasosA,pasosE);
@@ -79,15 +78,12 @@ int main(void)
 					consignaA=atof(azimuth);
 					consignaE=atof(elevacion);
 					printf("Azimuth:%f---Elevacion:%f\r\n",consignaA,consignaE);
-					//printf("cuenta:%f\r\n",(fabs(consignaA-posA)*REDUCCION_A/PASO));
 					pasosA=(int)(fabs(consignaA-posA)*REDUCCION_A/PASO);
 					pasosE=(int)(fabs(consignaE-posE)*REDUCCION_E/PASO);
 					printf("Pasos A: %d, Pasos E: %d\r\n",pasosA,pasosE);
 				}
 				nuevaConsigna=0;
 			}
-		}else{
-			//printf("Recibiendo sensor...\r\n");
 		}
 		if(flagHomingA==1 && flagHomingE==1)
 		{
@@ -95,13 +91,13 @@ int main(void)
 			{
 				ACT_INT_T3;
 				ACTIVAR_T3;
-				DER_A;
+				IZQ_A;
 			}
 			else if (consignaA<posA && pasosA!=0)
 			{
 				ACT_INT_T3;
 				ACTIVAR_T3;
-				IZQ_A;
+				DER_A;
 			}			
 			if(consignaE>posE && pasosE!=0)
 			{
@@ -113,7 +109,7 @@ int main(void)
 			{
 				ACT_INT_T4;
 				ACTIVAR_T4;
-				IZQ_E;
+				IZQ_E;		
 			}
 		}
 		else

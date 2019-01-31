@@ -52,34 +52,33 @@ void interpretaComando0()
 	int aux = 0;
 	switch(comando0[0])		
 	{
-		case 'S':			
-			if(comando0[1] == 'A')						
-			{
-				estadoSensor = APAGADO;
-				printf("Sensor Apagado\r\n");
-			}
-			if(comando0[1] == 'P')
-			{
-				estadoSensor = PRENDIDO;
-				printf("Sensor Prendido\r\n");
-			}
-			if(comando0[1] == 'Z')
-			{
-				aux = atoi(&comando0[2]);
-				consignaA = (float)aux*PASO/(float)REDUCCION_A + posA;
-				pasosA = abs(aux);
-				//printf("PasosAAA:%d\r\n",pasosA);
-				printf("Azimuth:%f---Elevacion:%f\r\n",consignaA,consignaE);
-				printf("Pasos A: %d, Pasos E: %d\r\n",pasosA,pasosE);
-			}
-			if(comando0[1] == 'E')
-			{
-				aux = atoi(&comando0[2]);
-				consignaE = (float)aux*PASO/(float)REDUCCION_E + posE;
-				pasosE = abs(aux);
-				printf("Azimuth:%f---Elevacion:%f\r\n",consignaA,consignaE);
-				printf("Pasos A: %d, Pasos E: %d\r\n",pasosA,pasosE);
-			}
+		case 'S':
+			switch(comando0[1]){
+				case 'A':
+					estadoSensor = APAGADO;
+					printf("Sensor Apagado\r\n");
+					break;
+				case 'P':
+					estadoSensor = PRENDIDO;
+					printf("Sensor Prendido\r\n");
+					break;
+				case 'Z':
+					aux = atoi(&comando0[2]);
+					consignaA = (float)aux*PASO/(float)REDUCCION_A + posA;
+					pasosA = abs(aux);
+					printf("Azi:%f---Ele:%f\r\n",consignaA,consignaE);
+					printf("PA: %d, PE: %d\r\n",pasosA,pasosE);
+					break;
+				case 'E':
+					aux = atoi(&comando0[2]);
+					consignaE = (float)aux*PASO/(float)REDUCCION_E + posE;
+					pasosE = abs(aux);
+					printf("Azi:%f---Ele:%f\r\n",consignaA,consignaE);
+					printf("PA: %d, PE: %d\r\n",pasosA,pasosE);
+					break;
+				default:
+					break;	
+			}			
 			break;						
 		case 'U':
 			rtc_uart.fecha.Day=(int)(comando0[1]-'0')*10+(int)(comando0[2]-'0');

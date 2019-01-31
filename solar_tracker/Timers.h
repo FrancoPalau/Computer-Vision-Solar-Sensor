@@ -16,6 +16,7 @@
 #define DESACT_T3	TCCR3B &=~ (1<<CS31)
 #define ACTIVAR_T4	TCCR5B|=(1<<CS51)
 #define DESACT_T4	TCCR5B &=~ (1<<CS51)
+//#define DESACT_T4	TCCR5A &=~ (1<<COM5B1)
 #define ACT_INT_T3	TIMSK3 |=(1<<OCIE3A)
 #define DESACT_INT_T3	TIMSK3 &=~ (1<<OCIE3A)
 #define ACT_INT_T4	TIMSK5 |=(1<<OCIE5A)
@@ -117,21 +118,31 @@ ISR(TIMER3_COMPA_vect){
 		DESACT_INT_T3;
 		TIMER3_TOP;
 	}
+	if(pA > pasosA){
+		pA = 0;
+	}
 }
 
 ISR(TIMER5_COMPA_vect){
-	pE++;
-	printf("Entre consignaE\r\n");
-	if(pE==pasosE)
-	{
-		posE=consignaE;
-		printf("Llegue consignaE\r\n");
-		pE=0;
-		pasosE=0;
-		DESACT_T4;
-		DESACT_INT_T4;
-		TIMER4_TOP;
-	}
+	//ATOMIC_BLOCK(ATOMIC_FORCEON) {
+		pE++;
+		printf("pe:%d\r\n", pE);
+		if(pE==pasosE)
+		{
+			posE=consignaE;
+			pE=0;
+			pasosE=0;
+			DESACT_T4;
+			//TCCR5B &=~ (1<<CS51);
+			DESACT_INT_T4;
+			TIMER4_TOP;
+			printf("Llegue consignaE\r\n");
+		}
+		if(pE > pasosE)
+		{
+			pE = 0;
+		}
+	//}
 }
 
 

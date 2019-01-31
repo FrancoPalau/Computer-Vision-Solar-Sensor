@@ -56,11 +56,11 @@ void interpretaComando0()
 			switch(comando0[1]){
 				case 'A':
 					estadoSensor = APAGADO;
-					printf("Sensor Apagado\r\n");
+					printf("APAGADO\r\n");
 					break;
 				case 'P':
 					estadoSensor = PRENDIDO;
-					printf("Sensor Prendido\r\n");
+					printf("PRENDIDO\r\n");
 					break;
 				case 'Z':
 					aux = atoi(&comando0[2]);
@@ -88,6 +88,12 @@ void interpretaComando0()
 			rtc_uart.hora.Minute=(int)(comando0[13]-'0')*10+(int)(comando0[14]-'0');
 			rtc_uart.hora.Second=(int)(comando0[16]-'0')*10+(int)(comando0[17]-'0');
 			RTC_SetTime(&rtc_uart);
+			break;
+		case 'X':
+			printf("XXXXX\r\n");
+			TCCR5B &=~ (1<<CS51);
+			TIMSK5 &=~ (1<<OCIE5A);
+			TCNT5=OCR5A-1;
 			break;
 		default:
 			break;

@@ -40,7 +40,7 @@ while(True):
     rows = gray.shape[1]
     circles = cv2.HoughCircles(th3, cv2.HOUGH_GRADIENT, 1, rows / 4,
                                param1=10, param2=15,
-                               minRadius=40, maxRadius=80)
+                               minRadius=30, maxRadius=80)
     # print(th3.shape)
     if num_pics < 10:
         # ensure at least some circles were found
@@ -71,7 +71,7 @@ while(True):
             if SENSOR_ON:
                 write_query(port, create_signal_query(0))
                 SENSOR_ON = False
-            time.sleep(5)
+            time.sleep(2)
         else:
             if not SENSOR_ON:
                 write_query(port, create_signal_query(1))
@@ -80,7 +80,8 @@ while(True):
             write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
             time.sleep(0.05) # wait 1 second to ensure azimuth position is reached
             write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
-            time.sleep(5)
+            print("Enviado")
+            time.sleep(2)
 
         # Reset variables
         list_centers = []

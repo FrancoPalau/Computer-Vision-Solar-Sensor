@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <util/atomic.h>
 #include "rtc.h"
 #include "diskio.h"
 #include "ff.h"

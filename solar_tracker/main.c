@@ -91,13 +91,13 @@ int main(void)
 			{
 				ACT_INT_T3;
 				ACTIVAR_T3;
-				IZQ_A;
+				DER_A;
 			}
 			else if (consignaA<posA && pasosA!=0)
 			{
 				ACT_INT_T3;
 				ACTIVAR_T3;
-				DER_A;
+				IZQ_A;
 			}			
 			if(consignaE>posE && pasosE!=0)
 			{

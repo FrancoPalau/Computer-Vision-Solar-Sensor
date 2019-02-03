@@ -10,6 +10,7 @@ num_pics = 0
 cap = cv2.VideoCapture(1)
 list_centers = []
 SENSOR_ON = False
+azimuth_sent = False
 
 # Open port to communicate with 328p
 port = create_serial_port()
@@ -77,11 +78,15 @@ while(True):
                 write_query(port, create_signal_query(1))
                 SENSOR_ON = True
                 time.sleep(0.05) # 50 miliseconds to ensure query is read
-            write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
-            time.sleep(0.05) # wait 1 second to ensure azimuth position is reached
-            write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
-            print("Enviado")
-            time.sleep(2)
+
+            if not azimuth_sent:
+                write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
+            else:
+                write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
+
+            azimuth_sent = not azimuth_sent # Toggle value
+            print("Sent")
+            time.sleep(1) # Wait 1 second to ensure new position is reached
 
         # Reset variables
         list_centers = []

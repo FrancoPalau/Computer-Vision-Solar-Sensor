@@ -2,9 +2,9 @@ import numpy as np
 import cv2
 import time
 from utils.utils import get_mean, num_steps, draw_circles, draw_axis
-from serial_communication.serial_utils import create_serial_port,\
-    create_step_query,create_signal_query,write_query,close_port
-from matplotlib import pyplot as plt
+# from serial_communication.serial_utils import create_serial_port,\
+#     create_step_query,create_signal_query,write_query,close_port
+# from matplotlib import pyplot as plt
 
 num_pics = 0
 cap = cv2.VideoCapture(1)
@@ -13,11 +13,11 @@ SENSOR_ON = False
 azimuth_sent = False
 
 # Open port to communicate with 328p
-port = create_serial_port()
+# port = create_serial_port()
 
 while(True):
-    #frame = cv2.imread('sol5.jpg')
-    #frame = cv2.resize(frame, None, fx=0.2, fy=0.2, interpolation=cv2.INTER_CUBIC)
+    # frame = cv2.imread('sol5.jpg')
+    # frame = cv2.resize(frame, None, fx=0.2, fy=0.2, interpolation=cv2.INTER_CUBIC)
 
     # Capture frame-by-frame
     #time.sleep(0.4)
@@ -36,7 +36,8 @@ while(True):
 
     ret, th3 = cv2.threshold(gray, 250, 255, cv2.THRESH_BINARY)
 
-    cv2.imshow('frame', th3)
+    # cv2.imshow('frame', th3)
+    cv2.imwrite('frame.png', th3)
 
     rows = gray.shape[1]
     circles = cv2.HoughCircles(th3, cv2.HOUGH_GRADIENT, 1, rows / 4,
@@ -61,28 +62,30 @@ while(True):
             draw_axis(output, th3, distAzi, distAlt)
 
             # show the output image
-            cv2.imshow("output", np.hstack([output]))
+            # cv2.imshow("output", np.hstack([output]))
+            cv2.imwrite('output.png', np.hstack([output]))
 
         else:
             print("No circle")
-            cv2.imshow('frame', th3)
+            # cv2.imshow('frame', th3)
+            cv2.imwrite('frame.png', th3)
     else:
         # Send the corresponding signal
         if len(list_centers) == 0:
             if SENSOR_ON:
-                write_query(port, create_signal_query(0))
+                # write_query(port, create_signal_query(0))
                 SENSOR_ON = False
             time.sleep(2)
         else:
             if not SENSOR_ON:
-                write_query(port, create_signal_query(1))
+                # write_query(port, create_signal_query(1))
                 SENSOR_ON = True
                 time.sleep(0.05) # 50 miliseconds to ensure query is read
 
-            if not azimuth_sent:
-                write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
-            else:
-                write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
+            # if not azimuth_sent:
+                # write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
+            # else:
+                # write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
 
             azimuth_sent = not azimuth_sent # Toggle value
             print("Sent")
@@ -98,8 +101,8 @@ while(True):
 
 
 # When everything done, release the capture and port
-write_query(port, create_signal_query(0))
+# write_query(port, create_signal_query(0))
 time.sleep(0.5)
-close_port(port)
+# close_port(port)
 cap.release()
 cv2.destroyAllWindows()

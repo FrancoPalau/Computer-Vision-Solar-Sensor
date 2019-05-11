@@ -7,7 +7,7 @@ from utils.utils import get_mean, num_steps, draw_circles, draw_axis
 # from matplotlib import pyplot as plt
 
 num_pics = 0
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 list_centers = []
 SENSOR_ON = False
 azimuth_sent = False

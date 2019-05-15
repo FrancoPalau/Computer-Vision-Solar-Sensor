@@ -2,8 +2,8 @@ import numpy as np
 import cv2
 import time
 from utils.utils import get_mean, num_steps, draw_circles, draw_axis
-# from serial_communication.serial_utils import create_serial_port,\
-#     create_step_query,create_signal_query,write_query,close_port
+from serial_communication.serial_utils import create_serial_port,\
+    create_step_query,create_signal_query,write_query,close_port
 # from matplotlib import pyplot as plt
 
 num_pics = 0
@@ -13,7 +13,8 @@ SENSOR_ON = False
 azimuth_sent = False
 
 # Open port to communicate with 328p
-# port = create_serial_port()
+port = create_serial_port()
+port.write(("ACK\n\r").encode())
 
 while(True):
     # frame = cv2.imread('sol5.jpg')
@@ -73,19 +74,19 @@ while(True):
         # Send the corresponding signal
         if len(list_centers) == 0:
             if SENSOR_ON:
-                # write_query(port, create_signal_query(0))
+                write_query(port, create_signal_query(0))
                 SENSOR_ON = False
             time.sleep(2)
         else:
             if not SENSOR_ON:
-                # write_query(port, create_signal_query(1))
+                write_query(port, create_signal_query(1))
                 SENSOR_ON = True
                 time.sleep(0.05) # 50 miliseconds to ensure query is read
 
-            # if not azimuth_sent:
-                # write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
-            # else:
-                # write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
+            if not azimuth_sent:
+                write_query(port, create_step_query(num_steps(get_mean(list_centers)), "az"))
+            else:
+                write_query(port, create_step_query(num_steps(get_mean(list_centers)), "al"))
 
             azimuth_sent = not azimuth_sent # Toggle value
             print("Sent")
@@ -101,8 +102,8 @@ while(True):
 
 
 # When everything done, release the capture and port
-# write_query(port, create_signal_query(0))
+write_query(port, create_signal_query(0))
 time.sleep(0.5)
-# close_port(port)
+close_port(port)
 cap.release()
 cv2.destroyAllWindows()

@@ -1,5 +1,9 @@
 # Solar Tracker with Computer-Vision Solar Sensor
 
-## Electronic layout with Fritzing
+## Electronic schematic
 
-![hardware_setup](hardware/hardware_setup.png)
+![hardware_setup](hardware/prototipo_pcb.pdf)
+
+## 3D Visualization with KiCad
+
+![3dview](hardware/solar_sensor-pcb.png)

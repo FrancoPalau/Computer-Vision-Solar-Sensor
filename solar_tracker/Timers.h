@@ -40,14 +40,23 @@ void inicializarTimer2(){
 }
 
 void inicializarTimer3(){
+	/**
+    Configuración de Timer 3, como Fast PWM con prescaler en 8
+	y duty cycle de 50%. La frecuencia es de 400Hz (2.5ms).
+	*/
 	//Timer3
 	OCR3A = 5000;
 	OCR3B =  (OCR3A>>1) & 0x7fff;						//Como hago un corrimiento a la derecha, me aseguro con 0x7fff que se rellene con 0
 	TCCR3A = (1<<COM3B1) | (1<<WGM30) | (1<<WGM31);		//Configuro Timer
 	TCCR3B = (1<<WGM32) | (1<<WGM33) | (1<<CS31);		//Configuro Timer fast PWM prescaler 8
+	// Interrupciones inhabilitadas
 	TIMSK3 &=~ (1<<OCIE3A);
+	// Habilitación de pines como salida:
+	// PE3 (OC3A): PWM
+	// PE4 (OC3B): PWM
 	DDRE= (1<<DDE3)|(1<<DDE4);
 }
+
 /*
 void inicializarTimer4(){
 	//Timer4
@@ -59,6 +68,7 @@ void inicializarTimer4(){
 	DDRH= (1<<DDH3)|(1<<DDH4);
 }
 */
+
 void inicializarTimer5(){
 	//Timer5
 	OCR5A = 5000;

@@ -122,6 +122,14 @@ int main(void)
 }
 
 void generarNombre(char* nombre){
+	/**
+    Según la fecha actual crea una cadena de 4 dígitos
+	con el día seguido del mes, y se guarda en la dirección
+	de memoria nombre.
+
+    @param dirección de memoria donde se guardará la cadena
+	con la fecha correspondiente.
+	*/
 	if(dia<10)
 	{
 		if (mes<10)
@@ -147,6 +155,9 @@ void generarNombre(char* nombre){
 }
 
 void homingA(){
+	/**
+    Rutina de homing del primer motor.
+	*/
 	ACTIVAR_T3;
 	DESACT_INT_T3;
 	printf("Entre homingA\r\n");
@@ -167,6 +178,9 @@ void homingA(){
 }
 
 void homingE(){
+	/**
+    Rutina de homing del segundo motor.
+	*/
 	ACTIVAR_T4;
 	DESACT_INT_T4;
 	printf("Entre homingE\r\n");

@@ -6,9 +6,6 @@
 */
 #include "mi_2560_UART0.h"
 
-
-
-
 #ifndef TIMERS_H_
 #define TIMERS_H_
 
@@ -52,8 +49,8 @@ void inicializarTimer3(){
 	// Interrupciones inhabilitadas
 	TIMSK3 &=~ (1<<OCIE3A);
 	// Habilitación de pines como salida:
-	// PE3 (OC3A): PWM
-	// PE4 (OC3B): PWM
+	// Control: PE3		Pin Function: OC3A		ArduinoMega: PWM5		Physical Pin: 5
+	// Control: PE4		Pin Function: OC3B		ArduinoMega: PWM2		Physical Pin: 6
 	DDRE= (1<<DDE3)|(1<<DDE4);
 }
 
@@ -70,15 +67,27 @@ void inicializarTimer4(){
 */
 
 void inicializarTimer5(){
+	/**
+    Configuración de Timer 5 (idem Timer 3), como Fast PWM con prescaler en 8
+	y duty cycle de 50%. La frecuencia es de 400Hz (2.5ms).
+	*/
 	//Timer5
 	OCR5A = 5000;
 	OCR5B =  (OCR5A>>1) & 0x7fff;						//Como hago un corrimiento a la derecha, me aseguro con 0x7fff que se rellene con 0
 	TCCR5A = (1<<COM5B1) | (1<<WGM50) | (1<<WGM51);		//Configuro Timer
 	TCCR5B = (1<<WGM52) | (1<<WGM53) | (1<<CS51);		//Configuro Timer fast PWM prescaler 8
+	// Interrupciones inhabilitadas
 	TIMSK5 &=~ (1<<OCIE5A);
-	DDRH= (1<<DDH3);
+	// Habilitación de pines como salida:
+	// Habilitación de pines como salida:
+	// Control: PL4		Pin Function: OC5B		ArduinoMega: PWM45		Physical Pin: 39
 	DDRL= (1<<DDL4); // Pin 45
+
+	DDRH= (1<<DDH3); // ERROR?? OC5A en PWM46 PL3
+	// Control: PL3		Pin Function: OC5A		ArduinoMega: PWM46		Physical Pin: 38
+	// DDRL |= (1 << DDL3); // No debería ser esta la habilitación?
 }
+
 ISR(TIMER1_COMPA_vect)
 {
 	contador++;

@@ -16,7 +16,7 @@ import time
 import RPi.GPIO as GPIO
 
 
-def limitswitch_setup(ls_pin, pud, BOTH=False, int_both=None, RISING=False, int_rising=None, FALLING=False, int_falling=None):
+def limitswitch_setup(ls_pin, pud, BOTH=False, RISING=False, FALLING=False, int_routine=None):
     """Setup of the limit switch
 
     Parameters
@@ -33,6 +33,8 @@ def limitswitch_setup(ls_pin, pud, BOTH=False, int_both=None, RISING=False, int_
         Enable interruption to rising edge (default is False)
     FALLING : bool, optional
         Enable interruption to falling edge (default is False)
+    int_routine: function, optional
+        Routine to be excuted in the interruption event
     """
 
     if (pud == 'PUD_DOWN'):
@@ -41,11 +43,11 @@ def limitswitch_setup(ls_pin, pud, BOTH=False, int_both=None, RISING=False, int_
         GPIO.setup(ls_pin, GPIO.IN, GPIO.PUD_UP)
 
     if (BOTH):
-        GPIO.add_event_detect(ls_pin, GPIO.BOTH, int_both, 500)
-    if (RISING):
-        GPIO.add_event_detect(ls_pin, GPIO.RISING, int_rising, 500)
-    if (FALLING):
-        GPIO.add_event_detect(ls_pin, GPIO.FALLING, int_falling, 500)
+        GPIO.add_event_detect(ls_pin, GPIO.BOTH, int_routine, 500)
+    elif (RISING):
+        GPIO.add_event_detect(ls_pin, GPIO.RISING, int_routine, 500)
+    elif (FALLING):
+        GPIO.add_event_detect(ls_pin, GPIO.FALLING, int_routine, 500)
     
     return 
 
@@ -73,12 +75,14 @@ class Stepper:
 
     Methods 
     ------- 
-    start(d 
-        ste l start moving
+    start()
+        stepper motor will start moving
     stop()
         stepper motor will stop moving
     changeDir()
         stepper motor will change direction
+    changeVel(vel)
+        change the value of the stepper motor's velocity to vel
     """
 
     def __init__(self, dir, step, vel=25):
@@ -130,6 +134,16 @@ class Stepper:
         """
         self.DIR = not(self.DIR)
         GPIO.output(self.DIR_PIN, self.DIR)
+    
+    def changeVel(self, vel):
+        """Change the value of the stepper motor's velocity
+
+        Parameters
+        ----------
+        vel : int
+            The frequency (angular velocity) of the stepper motor.
+        """
+        self.STEP.ChangeFrequency(vel)
 
 
 #--------------------------------------------------------------
@@ -153,16 +167,15 @@ if __name__ == "__main__":
 
     GPIO.setmode(GPIO.BOARD)
 
+    # Blinking led setup
     LED_BLINK = 11
     ledstate = False
     GPIO.setup(LED_BLINK, GPIO.OUT, initial=ledstate)
 
+    # Limit switch setup
     FINC_1 = 12
-    # GPIO.setup(FINC_1, GPIO.IN, GPIO.PUD_DOWN)
-    # GPIO.add_event_detect(FINC_1, GPIO.BOTH, finc_interrupt, 500)
-    limitswitch_setup(FINC_1, 'PUD_DOWN', BOTH=True, int_both=finc_interrupt)
+    limitswitch_setup(FINC_1, 'PUD_DOWN', BOTH=True, int_routine=finc_interrupt)
     
-
     # Stepper A setup
     mA = Stepper(13, 16)
     mA.start()
@@ -177,3 +190,4 @@ if __name__ == "__main__":
         mA.stop()
         GPIO.cleanup()
         print("\nExiting...")
+

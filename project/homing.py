@@ -1,4 +1,4 @@
-""" Clases y funciones asociadas al hardware del proyecto
+""" Rutinas de homing de los motores y finales de carrera correspondientes
     Actualmente migrando el proyecto desde Arduino a RPi3
 
     Autores:
@@ -19,6 +19,9 @@ from hardware import Stepper, limitswitch_setup
 
 
 def homing(channel):
+    """ Interruption routine in the homing process once 
+    the limit switch is pressed
+    """
 
     global mA
 
@@ -45,12 +48,6 @@ if __name__ == "__main__":
 
     # Limit switch setup
     FINC_1 = 12
-    # GPIO.setup(FINC_1, GPIO.IN, GPIO.PUD_DOWN)
-
-    # Limit switch pressed event
-    # GPIO.add_event_detect(FINC_1, GPIO.RISING, fc_pressed, 500)
-    # Limit switch unpressed event
-    # GPIO.add_event_detect(FINC_1, GPIO.FALLING, fc_unpressed, 500)
     limitswitch_setup(FINC_1, 'PUD_DOWN', RISING=True, int_routine=homing)
 
     # Stepper A setup

@@ -35,6 +35,8 @@ class Stepper:
         stepper motor will start moving
     stop()
         stepper motor will stop moving
+    changeDir()
+        stepper motor will change direction
     """
 
     def __init__(self, dir, step, vel=25):
@@ -51,8 +53,16 @@ class Stepper:
             The RPI's pin to set as PWM for steps of the stepper motor.
             This pin will be connected to the STEP pin in the 
             Pololu's stepper motor driver (like the A4988).
+        vel : int, optional
+            The initial frequency (angular velocity) of the stepper motor. By default the initial frequency
+            is 25 Hz.
         """
-        self.DIR = GPIO.setup(dir, GPIO.OUT, initial=0)
+        self.DIR_PIN = dir
+        self.STEP_PIN = step
+
+        self.DIR = 0
+        GPIO.setup(dir, GPIO.OUT, initial=0)
+
         GPIO.setup(step, GPIO.OUT)
         self.STEP = GPIO.PWM(step, vel)
     
@@ -73,10 +83,43 @@ class Stepper:
         """
         self.STEP.stop()
 
+    def changeDir(self):
+        """Change the direction of the stepper motor to the
+        opposite
+        """
+        self.DIR = not(self.DIR)
+        GPIO.output(self.DIR_PIN, self.DIR)
+
+
+#--------------------------------------------------------------
+
+def finc_interrupt(channel):
+    """ Interruption routune to change the direction of
+    the stepper motor. Only for the purpose of testing
+    """
+    print("HOME")
+    mA.changeDir()
+
 
 if __name__ == "__main__":
+    """ Hardware test:
+    The following code seeks to verify the correct functioning 
+    of the hardware. 
+    It consists of the slow start-up of a stepper motor, which 
+    changes its direction of rotation each time an entry is 
+    given with the limit switch.
+    """
 
     GPIO.setmode(GPIO.BOARD)
+
+    LED_BLINK = 11
+    ledstate = False
+    GPIO.setup(LED_BLINK, GPIO.OUT, initial=ledstate)
+
+    FINC_1 = 12
+    GPIO.setup(FINC_1, GPIO.IN, GPIO.PUD_DOWN)
+    GPIO.add_event_detect(FINC_1, GPIO.BOTH, finc_interrupt, 500)
+    
 
     # Stepper A setup
     mA = Stepper(13, 16)
@@ -84,7 +127,9 @@ if __name__ == "__main__":
 
     try:
         while (1):
-            time.sleep(0.1)
+            time.sleep(0.5)
+            ledstate = not(ledstate)
+            GPIO.output(LED_BLINK, ledstate)
 
     except KeyboardInterrupt:
         mA.stop()

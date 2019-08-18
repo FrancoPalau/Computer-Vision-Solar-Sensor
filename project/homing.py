@@ -17,22 +17,62 @@ import RPi.GPIO as GPIO
 
 from hardware import Stepper, limitswitch_setup
 
+flag_homingA = 0
+flag_homingB = 0
 
-def homing(channel):
-    """ Interruption routine in the homing process once 
+
+def homing_process(mA, mB):
+    """ Sequential homing process of both stepper motors
+    """
+    mA.start()
+    while (not flag_homingA)
+
+    mB.start()
+    while (not flag_homingB)
+
+    return
+
+
+def int_homing(channel):
+    """Interruption routine in the homing process once 
     the limit switch is pressed
+
+    Parameters
+    ----------
+    channel : int
+        Since it's an interruption routine, it receives as a parameter the channel (or pin) in which the interruption occurred
     """
 
-    global mA
+    global FINC_A, FINC_B
+    global mA, mB
 
-    mA.stop()
-    mA.changeDir()
-    mA.changeVel(10)
-    mA.start()
-    while (GPIO.input(channel)):
-        time.sleep(0.1)
-    mA.stop()
-    mA.changeVel(30)
+    print("Limit switch pressed")
+    
+    # Interruption associated to homing A
+    if (channel == FINC_A):
+        mA.stop()
+        mA.changeDir()
+        mA.changeVel(10)
+        mA.start()
+        while (GPIO.input(FINC_A)):
+            time.sleep(0.1)
+        mA.stop()
+        print("Limit Switch A unpressed")
+        mA.changeVel(30)
+        flag_homingA = 1
+    
+    # Interruption associated to homing B
+    if (channel == FINC_B):
+        mB.stop()
+        mB.changeDir()
+        mB.changeVel(10)
+        mB.start()
+        while (GPIO.input(FINC_B)):
+            time.sleep(0.1)
+        mB.stop()
+        print("Limit Switch B unpressed")
+        mB.changeVel(30)
+        flag_homingB = 1
 
     return
 
@@ -41,27 +81,26 @@ if __name__ == "__main__":
 
     GPIO.setmode(GPIO.BOARD)
 
-    # LED blinking as visual indicator
-    LED_BLINK = 11
-    ledstate = False
-    GPIO.setup(LED_BLINK, GPIO.OUT, initial=ledstate)
+    # Limit switch A setup
+    FINC_A = 12
+    limitswitch_setup(FINC_A, 'PUD_DOWN', RISING=True, int_routine=homing)
 
-    # Limit switch setup
-    FINC_1 = 12
-    limitswitch_setup(FINC_1, 'PUD_DOWN', RISING=True, int_routine=homing)
+    # Limit switch 2 setup
+    FINC_B = 22
+    limitswitch_setup(FINC_B, 'PUD_DOWN', RISING=True, int_routine=homing)
 
     # Stepper A setup
     mA = Stepper(13, 16)
-    mA.start()
+
+    # Stepper B setup
+    mB = Stepper(15, 18)
 
     try:
-        while (1):
-            time.sleep(0.5)
-            ledstate = not(ledstate)
-            GPIO.output(LED_BLINK, ledstate)
+        homing_process()
 
     except KeyboardInterrupt:
         mA.stop()
+        mB.stop()
         GPIO.cleanup()
         print("\nExiting...")
 

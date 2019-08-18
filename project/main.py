@@ -9,10 +9,15 @@
     - Gonzalo Fernández
 """
 
-# TO DO: Error handling
+# TO DO: 
+# - Error handling
+# - Move homing routine to homing.py
 
 import time
 import RPi.GPIO as GPIO
+
+import os
+from multiprocessing import Process
 
 from hardware import Stepper, limitswitch_setup
 
@@ -88,3 +93,4 @@ if __name__ == "__main__":
         mB.stop()
         GPIO.cleanup()
         print("\nExiting...")
+        # Acá hacer el processes join

@@ -28,20 +28,19 @@ def get_name(day, month):
     Returns
     -------
     str
-        the name of the file corresponding to the date 
-        received
+        the name of the file corresponding to the date received
     """
 
     if (day < 10):
         if (month<10):
-            return f"0{day}0{month}.txt"
+            return ("0%d0%d.txt" % (day, month))
         else:
-            return f"0{day}{month}.txt"
+            return ("0%d%d.txt" % (day, month))
     else:
         if (month<10):
-            return f"{day}0{month}.txt"
+            return ("%d0%d.txt" % (day, month))
         else:
-            return f"{day}{month}.txt"
+            return ("%d%d.txt" % (day, month))
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@
 
 # TO DO: 
 # - Error handling
-# - Ver que es PASO_SEG
+# - Ver que es PASO_SEG y SEG_INF
 # - Ver mejor cuando actualizar y declarar cada cosa
 
 
@@ -19,6 +19,7 @@ from datetime import datetime
 import time
 
 PASO_SEG = 5 # Que es esto??
+SEG_INF = 21600 # Y esto?
 
 HOUR_INF = 6
 HOUR_SUP = 21
@@ -30,12 +31,15 @@ flag_hour = 0
 flag_date = 0
 flag_setpoint = 0
 
+month = datetime.now().month
+day = datetime.now().day
+second = datetime.now().second
+
 
 def time_process():
 
     # Date and hour update in the creation of the process
     # Ver mejor cuando actualizar y declarar cada cosa
-    year = datetime.now().year
     month = datetime.now().month
     day = datetime.now().day
     hour = datetime.now().hour

@@ -80,7 +80,6 @@ def time_process():
                 second = total_sec
                 flag_hour = 1
 
-
         else:
             print("Night mode: " + str(datetime.now()))
 

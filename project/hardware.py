@@ -128,11 +128,15 @@ class Stepper:
         """
         self.STEP.stop()
 
-    def changeDir(self):
-        """Change the direction of the stepper motor to the
-        opposite
+    def changeDir(self, dir):
+        """Change the direction of the stepper motor to the opposite
+
+        Parameters
+        ----------
+        dir : bool
+            Direction of rotation of the stepper motor
         """
-        self.DIR = not(self.DIR)
+        self.DIR = dir
         GPIO.output(self.DIR_PIN, self.DIR)
     
     def changeVel(self, vel):

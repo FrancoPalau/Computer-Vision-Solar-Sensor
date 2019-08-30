@@ -17,13 +17,24 @@ import RPi.GPIO as GPIO
 
 from hardware import Stepper, limitswitch_setup
 
+from stepper_handling import position_A, position_B
+from stepper_handling import setpoint_A, setpoint_B
+
 flag_homingA = 0
 flag_homingB = 0
 
 
 def homing_process(mA, mB):
     """ Sequential homing process of both stepper motors
+    
+    Parameters
+    ----------
+    mA : Stepper
+        First stepper to execute homing process
+    mB : Stepper
+        Second stepper to execute homing process
     """
+
     mA.start()
     while (not flag_homingA)
 
@@ -51,7 +62,7 @@ def int_homing(channel):
     # Interruption associated to homing A
     if (channel == FINC_A):
         mA.stop()
-        mA.changeDir()
+        mA.changeDir(1)
         mA.changeVel(10)
         mA.start()
         while (GPIO.input(FINC_A)):
@@ -59,12 +70,15 @@ def int_homing(channel):
         mA.stop()
         print("Limit Switch A unpressed")
         mA.changeVel(30)
+
+        position_A = 0  # Current position update
+        setpoint_A = 0  # Setpoint update
         flag_homingA = 1
     
     # Interruption associated to homing B
     if (channel == FINC_B):
         mB.stop()
-        mB.changeDir()
+        mB.changeDir(1)
         mB.changeVel(10)
         mB.start()
         while (GPIO.input(FINC_B)):
@@ -72,6 +86,9 @@ def int_homing(channel):
         mB.stop()
         print("Limit Switch B unpressed")
         mB.changeVel(30)
+
+        position_B = 0  # Current position update
+        setpoint_B = 0  # Setpoint update
         flag_homingB = 1
 
     return

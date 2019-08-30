@@ -8,43 +8,15 @@
 
 #include "timer_config.h"
 #include "uart_config.h"
-
-// Input definitions
-#define LED DDB5
-
-#define DIR_A DDB0
-#define DIR_B DDB3
-
-#define DIR_CLK_A (DDRB |= (1 << DIR_A))
-#define DIR_ACLK_A (DDRB &= ~(1 << DIR_A))
-
-#define DIR_CLK_B (DDRB |= (1 << DIR_B))
-#define DIR_ACLK_B (DDRB &= ~(1 << DIR_B))
+#include "hw_logic.h"
 
 int main(void){
 
-    DDRB |= (1 << LED);
-    DDRB |= (1 << STEP_A); //| (1 << STEP_B);
-    DDRB |= (1 << DIR_A); // | (1 << DIR_B);
-
     TIMER_init();
     UART_init(baud_rate);
+    HW_init();
 
     sei();
-
-    flag = 0;
-
-    setpointA = 0;
-    setpointB = 0;
-
-    steps_A = 0;
-    steps_B = 0;
-
-    pA = 0;
-    pB = 0;
-
-    position_A = 0;
-    position_B = 0;
 
     while (1){
         if (flag){

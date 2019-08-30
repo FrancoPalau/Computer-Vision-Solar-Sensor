@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 #include "timer_config.h"
+#include "hw_logic.h"
 
 #ifndef F_CPU
 #define F_CPU 16000000
@@ -34,13 +35,5 @@ char command[30];
 unsigned int indcom;
 
 ISR (USART_RX_vect);
-
-double setpointA;
-double setpointB;
-
-int steps_A;
-int steps_B;
-
-char flag;
 
 #endif /* UART_CONFIG_H_ */

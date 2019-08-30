@@ -7,6 +7,7 @@
 #include <util/atomic.h>
 
 #include "uart_config.h"
+#include "hw_logic.h"
 
 #define STEP_A DDB1
 #define STEP_B DDB2
@@ -32,11 +33,5 @@ void TIMER_init(void);
 
 ISR (TIMER1_COMPA_vect);
 ISR (TIMER1_COMPB_vect);
-
-double position_A;
-double position_B;
-
-int pA;
-int pB;
 
 #endif /* TIMER_CONFIG_H_ */

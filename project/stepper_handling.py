@@ -9,8 +9,6 @@
     - Gonzalo Fernández
 """
 
-from homing import flag_homingA, flag_homingB
-
 # TO DO: 
 # - Error handling
 
@@ -65,61 +63,7 @@ def calc_step(id):
     return step
 
 
-def stepperA_process(m):
-    """Stepper motor A control process
-
-    Parameters
-    ----------
-    m : Stepper
-        Stepper object with all the motor setup
-    """
-
-    while (1):
-        if (flag_homingA and flag_homingB):
-            if ((setpoint_A > position_A) and (steps_A != 0)):
-                m.changeDir(1) # Clockwise rotation?
-                m.start()
-            
-            if ((setpoint_A < position_A) and (steps_A != 0)):
-                m.changeDir(0) # Anticlockwise rotation?
-                m.start()
-
-        else:
-            # Ejecutar homing
-
-    return
-
-
-def stepperB_process(m):
-    """Stepper motor B control process
-
-    Parameters
-    ----------
-    m : Stepper
-        Stepper object with all the motor setup
-    """
-
-    active = 0
-
-    while (1):
-        if (flag_homingA and flag_homingB):
-            if ((setpoint_B > position_B) and (steps_B != 0)):
-                m.changeDir(1) # Clockwise rotation?
-                active = 1
-            
-            if ((setpoint_B < position_B) and (steps_B != 0)):
-                m.changeDir(0) # Anticlockwise rotation?
-                active = 1
-
-        if (active):
-            mA.
-            count_A += 1
-
-
-        else:
-            # Ejecutar homing
-
-    return
-
-
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    print("Steps A: " + str(calc_step('A')))
+    print("Steps B: " + str(calc_step('B')))
+    

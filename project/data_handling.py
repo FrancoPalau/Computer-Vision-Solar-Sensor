@@ -1,4 +1,4 @@
-""" Actualmente migrando el proyecto desde Arduino a RPi3
+""" Manipulación de base de datos
 
     Autores:
     - Lautaro Delgado
@@ -9,7 +9,8 @@
     - Gonzalo Fernández
 """
 
-# TO DO: Error handling
+# TO DO: 
+# - Error handling
 
 from datetime import datetime
 import time

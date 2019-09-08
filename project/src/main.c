@@ -23,23 +23,19 @@ int main(void){
             if (setpointA > position_A && steps_A != 0){
                 ENA_INTA;
                 DIR_CLK_A;
-                printf("1");
             }
             else if (setpointA < position_A && steps_A != 0){
                 ENA_INTA;
                 DIR_ACLK_A;
-                printf("2");
             }	
 
             if(setpointB > position_B && steps_B != 0){
                 ENA_INTB;
                 DIR_CLK_B;
-                printf("3");
             }
             else if (setpointB < position_B && steps_B != 0){
                 ENA_INTB;
-                DIR_ACLK_B;
-                printf("4");	
+                DIR_ACLK_B;	
             }
     
         } else {

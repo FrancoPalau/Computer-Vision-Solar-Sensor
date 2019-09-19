@@ -2,4 +2,4 @@
 
 ## Electronic layout with Fritzing
 
-![hardware_setup](hardware/hardware_setup.png)
+![hardware_setup](hardware/solar-tracker.png)

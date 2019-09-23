@@ -2,7 +2,7 @@
 
 ## Electronic schematic
 
-![hardware_setup](hardware/solar-tracker.sch)
+![hardware_setup](hardware/solar-tracker_eesquema.png)
 
 ## 3D Visualization with KiCad
 

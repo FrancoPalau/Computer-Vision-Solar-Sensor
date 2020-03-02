@@ -9,47 +9,18 @@
     - Gonzalo Fernández
 """
 
-# TO DO: Error handling
+# TO DO: 
+# - Error handling
+# - Move homing routine to homing.py
 
 import time
 import RPi.GPIO as GPIO
 
+import os
+from multiprocessing import Process
+
 from hardware import Stepper, limitswitch_setup
-
-
-def homing(channel):
-    """ Interruption routine in the homing process once 
-    the limit switch is pressed
-    """
-
-    global FINC_A, FINC_B
-    global mA, mB
-
-    print("Limit switch pressed")
-    
-    if (channel == FINC_A):
-        mA.stop()
-        mA.changeDir()
-        mA.changeVel(10)
-        mA.start()
-        while (GPIO.input(FINC_A)):
-            time.sleep(0.1)
-        mA.stop()
-        print("Limit Switch A unpressed")
-        mA.changeVel(30)
-    
-    if (channel == FINC_B):
-        mB.stop()
-        mB.changeDir()
-        mB.changeVel(10)
-        mB.start()
-        while (GPIO.input(FINC_B)):
-            time.sleep(0.1)
-        mB.stop()
-        print("Limit Switch B unpressed")
-        mB.changeVel(30)
-
-    return
+from homing import int_homing, homing_process
 
 
 if __name__ == "__main__":
@@ -63,21 +34,22 @@ if __name__ == "__main__":
 
     # Limit switch A setup
     FINC_A = 12
-    limitswitch_setup(FINC_A, 'PUD_DOWN', RISING=True, int_routine=homing)
+    limitswitch_setup(FINC_A, 'PUD_DOWN', RISING=True, int_routine=int_homing)
 
     # Limit switch 2 setup
     FINC_B = 22
-    limitswitch_setup(FINC_B, 'PUD_DOWN', RISING=True, int_routine=homing)
+    limitswitch_setup(FINC_B, 'PUD_DOWN', RISING=True, int_routine=int_homing)
 
     # Stepper A setup
     mA = Stepper(13, 16)
-    mA.start()
 
     # Stepper B setup
     mB = Stepper(15, 18)
-    mB.start()
 
     try:
+        # Homing process of both stepper motors
+        homing_process(mA, mB)
+
         while (1):
             time.sleep(0.5)
             ledstate = not(ledstate)
@@ -88,3 +60,4 @@ if __name__ == "__main__":
         mB.stop()
         GPIO.cleanup()
         print("\nExiting...")
+        # Acá hacer el processes join

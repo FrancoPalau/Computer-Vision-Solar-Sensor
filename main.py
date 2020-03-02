@@ -14,7 +14,7 @@ azimuth_sent = False
 
 # Open port to communicate with 328p
 port = create_serial_port()
-port.write(("ACK\n\r").encode())
+write_query(port, create_signal_query(0))
 
 while(True):
     # frame = cv2.imread('sol5.jpg')

@@ -22,6 +22,9 @@ while(True):
 
     # Capture frame-by-frame
     #time.sleep(0.4)
+    
+    #Aca toma las imagenes => Entrada del nodo. Puede haber otro nodo que lo unico que haga sea
+    #Tomar la imagen y publicarla en un topico
     ret, frame = cap.read()
     num_pics += 1
 

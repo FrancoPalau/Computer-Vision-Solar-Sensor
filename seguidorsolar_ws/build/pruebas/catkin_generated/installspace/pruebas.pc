@@ -1,0 +1,8 @@
+prefix=/home/pi/seguidorsolar_ws/install
+
+Name: pruebas
+Description: Description of pruebas
+Version: 0.0.0
+Cflags: -I/home/pi/seguidorsolar_ws/install/include
+Libs: -L/home/pi/seguidorsolar_ws/install/lib 
+Requires: cv_bridge opencv2 roscpp rospy sensor_msgs std_msgs message_runtime

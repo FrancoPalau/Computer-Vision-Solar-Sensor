@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 # INPUTS: CAMERA IMAGE FROM TOPIC
 # OUTPUTS: PAPs STEPS + IMAGE WITH CENTER AND AXIES 
@@ -17,7 +18,7 @@ from pruebas.msg import numsteps
 
 # Create publisher to see result of algorithm.
 pub_sun_center_img = rospy.Publisher('sun_center',Image)
-pub_numsteps = rospy.Publisher('num_steps_set_poits',numsteps)
+pub_numsteps = rospy.Publisher('num_steps_close_loop',numsteps)
 # # Create publisher to send PAPs setpoits steps
 # pub_num_steps = rospy.Publisher('num_steps',Image)
 
@@ -91,8 +92,8 @@ def callback(data):
 
     rows = gray.shape[1]
     circles = cv2.HoughCircles(th3, cv2.HOUGH_GRADIENT, 1, rows / 4,
-                               param1=10, param2=15)
-                            #    minRadius=30, maxRadius=80)
+                            param1=10, param2=15)
+                            # ,minRadius=30, maxRadius=80)
     # print(th3.shape)
     if num_pics < 10:
         # ensure at least some circles were found
@@ -116,25 +117,28 @@ def callback(data):
 
             # show the output image
             # cv2.imshow("output", np.hstack([output]))
-            cv2.imwrite('output.png', np.hstack([output]))
+            # cv2.imwrite('output.png', np.hstack([output]))
   
             try:
                 # Use publisher to pusblish the original image with the circle and axies
                 # cv2_to_imgmsg to convert image to msg for ROS
                 pub_sun_center_img.publish(bridge.cv2_to_imgmsg(output, "bgr8"))
                 pub_numsteps.publish(steps_set_points)
+                rospy.loginfo("Sun detected. Entering close loop mode")
+                rospy.set_param('close_loop_flag',True)
             except CvBridgeError as e:
                 print(e)
 
         else:
-            print("No circle")
+            rospy.loginfo("Sun not detected")
+            rospy.set_param('close_loop_flag',False)
             # cv2.imshow('frame', th3)
-            cv2.imwrite('frame.png', th3)
+            # cv2.imwrite('frame.png', th3)
 
 # Subscriptor definition. 
 def listener():
     # Init node with name 'vision_sensor'. 
-    rospy.init_node('vision_sensor', anonymous=True)
+    rospy.init_node('vision_sensor', anonymous=True,log_level=rospy.DEBUG)
 
     # Create subscriber. Topic name: imagerp, msg: Image, function callback.
     rospy.Subscriber("imagerp", Image, callback)

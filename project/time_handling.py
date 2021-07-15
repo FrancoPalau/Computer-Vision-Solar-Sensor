@@ -52,7 +52,7 @@ def time_process():
         hour = datetime.now().hour
 
         # System only works between 6AM and 9PM
-        if (HOUR_INF <= hour and hour > HOUR_SUP):
+        if (HOUR_INF <= hour and hour < HOUR_SUP):
 
             # Minute and second update
             minute = datetime.now().minute

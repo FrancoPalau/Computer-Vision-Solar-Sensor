@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+
+    <node name="SolarStateMachine" pkg="pruebas" type="flux_main_control.py" output="screen"/>
+    
+
+    
+    <node name="open_loop" pkg="pruebas" type="time_handling.py"/>
+    <param name="start_system_flag" type="boolean" value="true" />
+    
+
+    <include file="$(find raspicam_node)/launch/camerav2_410x308_30fps.launch"/>
+    
+    <node name="republish" type="republish" pkg="image_transport" args="compressed in:=/raspicam_node/image raw out:=raw_image_sun" />
+    
+    
+    <node name="vision_sensor" pkg="pruebas" type="vision.py"/>
+    
+</launch>

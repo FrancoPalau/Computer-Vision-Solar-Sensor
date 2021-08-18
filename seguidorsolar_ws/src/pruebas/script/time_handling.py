@@ -4,6 +4,8 @@
 # INPUTS: TIME
 # OUTPUTS: FLAGS AND SECONDS COUNTED 
 
+from rospy.core import rospyinfo
+from std_msgs.msg import String, Int16
 from numpy.lib.function_base import copy
 from pruebas.msg import numsteps
 from datetime import datetime
@@ -54,6 +56,8 @@ PATH = "/home/pi/seguidorsolar_ws/src/pruebas/time_data/data/"
 # Create publisher
 pub_num_steps_open_loop = rospy.Publisher('num_steps_open_loop',numsteps)
 
+
+
 # Set loop status parameter
 rospy.set_param('close_loop_flag',False)
 
@@ -81,10 +85,8 @@ def calc_step(id):
         step = int((setpoint - position) * reduction / STEP)
         if(step != 0):
             position_A=setpoint_A
-        print("A-------")
-        print(setpoint)
-        print(position)
-        print(step)
+        rospy.loginfo("MOTOR_A\n Position: %s\n Setpoint: %s\n Steps: %s", position,setpoint,step)
+
     elif (id == 'B'):
         reduction = REDUCTION_B
         setpoint = setpoint_B
@@ -92,10 +94,8 @@ def calc_step(id):
         step = int((setpoint - position) * reduction / STEP)
         if(step != 0):
             position_B=setpoint_B
-        print("B--------")
-        print(setpoint)
-        print(position)
-        print(step)
+        rospy.loginfo("MOTOR_B\n Position: %s\n Setpoint: %s\n Steps: %s\n", position,setpoint,step)
+    
     return step
 
 
@@ -118,9 +118,10 @@ def time_process():
     while not rospy.is_shutdown():
 
         loop_status = rospy.get_param("/close_loop_flag")
-
+        
         if(not loop_status):
             num_steps_open_loop = numsteps()
+
             # Hour update
             hour = datetime.now().hour
 
@@ -135,9 +136,8 @@ def time_process():
                 # Total seconds count
                 total_sec = hour*SEC_HOUR + minute*SEC_MIN + second
 
-                # No tengo clara esta condición (ver TO DO)
+                
                 if (datetime.now().day == day and datetime.now().month == month and ((total_sec-second) < (PASO_SEG+1))):
-
                     second = total_sec
                     flag_setpoint = 1
                     flag_date = 0
@@ -165,6 +165,7 @@ def time_process():
             
             pub_num_steps_open_loop.publish(num_steps_open_loop)
             rospy.sleep(5.0)
+
         else:
             rospy.loginfo("Entering close loop")
             num_steps_open_loop = numsteps()
@@ -271,4 +272,6 @@ def get_coord(file_name, lines_count):
 
 
 if __name__ == "__main__":
+
     time_process()
+

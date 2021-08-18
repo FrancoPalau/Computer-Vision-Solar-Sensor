@@ -122,6 +122,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/pi/seguidorsolar_ws/build/vision_opencv/cv_bridge/cmake_install.cmake")
   include("/home/pi/seguidorsolar_ws/build/vision_opencv/image_geometry/cmake_install.cmake")
   include("/home/pi/seguidorsolar_ws/build/pruebas/cmake_install.cmake")
+  include("/home/pi/seguidorsolar_ws/build/raspicam_node/cmake_install.cmake")
 
 endif()
 

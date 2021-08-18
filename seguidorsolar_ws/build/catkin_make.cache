@@ -1,2 +1,2 @@
-pruebas:vision_opencv/cv_bridge:vision_opencv/image_geometry:vision_opencv/opencv_tests:vision_opencv/vision_opencv
+pruebas:raspicam_node:vision_opencv/cv_bridge:vision_opencv/image_geometry:vision_opencv/opencv_tests:vision_opencv/vision_opencv
 -DCATKIN_DEVEL_PREFIX=/home/pi/seguidorsolar_ws/devel -DCMAKE_INSTALL_PREFIX=/home/pi/seguidorsolar_ws/install -G Unix Makefiles

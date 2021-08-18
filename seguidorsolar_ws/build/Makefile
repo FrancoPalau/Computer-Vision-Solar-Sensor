@@ -1179,6 +1179,344 @@ pruebas_generate_messages_nodejs/fast:
 	$(MAKE) -f pruebas/CMakeFiles/pruebas_generate_messages_nodejs.dir/build.make pruebas/CMakeFiles/pruebas_generate_messages_nodejs.dir/build
 .PHONY : pruebas_generate_messages_nodejs/fast
 
+#=============================================================================
+# Target rules for targets named raspicam_node
+
+# Build rule for target.
+raspicam_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node
+.PHONY : raspicam_node
+
+# fast build rule for target.
+raspicam_node/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node.dir/build.make raspicam_node/CMakeFiles/raspicam_node.dir/build
+.PHONY : raspicam_node/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_gencfg
+
+# Build rule for target.
+raspicam_node_gencfg: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_gencfg
+.PHONY : raspicam_node_gencfg
+
+# fast build rule for target.
+raspicam_node_gencfg/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_gencfg.dir/build.make raspicam_node/CMakeFiles/raspicam_node_gencfg.dir/build
+.PHONY : raspicam_node_gencfg/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_genpy
+
+# Build rule for target.
+raspicam_node_genpy: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_genpy
+.PHONY : raspicam_node_genpy
+
+# fast build rule for target.
+raspicam_node_genpy/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_genpy.dir/build.make raspicam_node/CMakeFiles/raspicam_node_genpy.dir/build
+.PHONY : raspicam_node_genpy/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_generate_messages_py
+
+# Build rule for target.
+raspicam_node_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_generate_messages_py
+.PHONY : raspicam_node_generate_messages_py
+
+# fast build rule for target.
+raspicam_node_generate_messages_py/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_generate_messages_py.dir/build.make raspicam_node/CMakeFiles/raspicam_node_generate_messages_py.dir/build
+.PHONY : raspicam_node_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named diagnostic_msgs_generate_messages_eus
+
+# Build rule for target.
+diagnostic_msgs_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 diagnostic_msgs_generate_messages_eus
+.PHONY : diagnostic_msgs_generate_messages_eus
+
+# fast build rule for target.
+diagnostic_msgs_generate_messages_eus/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/diagnostic_msgs_generate_messages_eus.dir/build.make raspicam_node/CMakeFiles/diagnostic_msgs_generate_messages_eus.dir/build
+.PHONY : diagnostic_msgs_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named diagnostic_msgs_generate_messages_cpp
+
+# Build rule for target.
+diagnostic_msgs_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 diagnostic_msgs_generate_messages_cpp
+.PHONY : diagnostic_msgs_generate_messages_cpp
+
+# fast build rule for target.
+diagnostic_msgs_generate_messages_cpp/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/diagnostic_msgs_generate_messages_cpp.dir/build.make raspicam_node/CMakeFiles/diagnostic_msgs_generate_messages_cpp.dir/build
+.PHONY : diagnostic_msgs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_generate_messages_nodejs
+
+# Build rule for target.
+dynamic_reconfigure_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_generate_messages_nodejs
+.PHONY : dynamic_reconfigure_generate_messages_nodejs
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_nodejs/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/build.make raspicam_node/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_gencfg
+
+# Build rule for target.
+dynamic_reconfigure_gencfg: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_gencfg
+.PHONY : dynamic_reconfigure_gencfg
+
+# fast build rule for target.
+dynamic_reconfigure_gencfg/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/dynamic_reconfigure_gencfg.dir/build.make raspicam_node/CMakeFiles/dynamic_reconfigure_gencfg.dir/build
+.PHONY : dynamic_reconfigure_gencfg/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_generate_messages_cpp
+
+# Build rule for target.
+dynamic_reconfigure_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_generate_messages_cpp
+.PHONY : dynamic_reconfigure_generate_messages_cpp
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_cpp/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build.make raspicam_node/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_genlisp
+
+# Build rule for target.
+raspicam_node_genlisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_genlisp
+.PHONY : raspicam_node_genlisp
+
+# fast build rule for target.
+raspicam_node_genlisp/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_genlisp.dir/build.make raspicam_node/CMakeFiles/raspicam_node_genlisp.dir/build
+.PHONY : raspicam_node_genlisp/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_generate_messages_eus
+
+# Build rule for target.
+dynamic_reconfigure_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_generate_messages_eus
+.PHONY : dynamic_reconfigure_generate_messages_eus
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_eus/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/build.make raspicam_node/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_generate_messages_eus
+
+# Build rule for target.
+raspicam_node_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_generate_messages_eus
+.PHONY : raspicam_node_generate_messages_eus
+
+# fast build rule for target.
+raspicam_node_generate_messages_eus/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_generate_messages_eus.dir/build.make raspicam_node/CMakeFiles/raspicam_node_generate_messages_eus.dir/build
+.PHONY : raspicam_node_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_generate_messages_py
+
+# Build rule for target.
+dynamic_reconfigure_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_generate_messages_py
+.PHONY : dynamic_reconfigure_generate_messages_py
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_py/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/build.make raspicam_node/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named compressed_image_transport_gencfg
+
+# Build rule for target.
+compressed_image_transport_gencfg: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 compressed_image_transport_gencfg
+.PHONY : compressed_image_transport_gencfg
+
+# fast build rule for target.
+compressed_image_transport_gencfg/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/compressed_image_transport_gencfg.dir/build.make raspicam_node/CMakeFiles/compressed_image_transport_gencfg.dir/build
+.PHONY : compressed_image_transport_gencfg/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_gencpp
+
+# Build rule for target.
+raspicam_node_gencpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_gencpp
+.PHONY : raspicam_node_gencpp
+
+# fast build rule for target.
+raspicam_node_gencpp/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_gencpp.dir/build.make raspicam_node/CMakeFiles/raspicam_node_gencpp.dir/build
+.PHONY : raspicam_node_gencpp/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_reconfigure_generate_messages_lisp
+
+# Build rule for target.
+dynamic_reconfigure_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_reconfigure_generate_messages_lisp
+.PHONY : dynamic_reconfigure_generate_messages_lisp
+
+# fast build rule for target.
+dynamic_reconfigure_generate_messages_lisp/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/build.make raspicam_node/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/build
+.PHONY : dynamic_reconfigure_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_generate_messages_lisp
+
+# Build rule for target.
+raspicam_node_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_generate_messages_lisp
+.PHONY : raspicam_node_generate_messages_lisp
+
+# fast build rule for target.
+raspicam_node_generate_messages_lisp/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_generate_messages_lisp.dir/build.make raspicam_node/CMakeFiles/raspicam_node_generate_messages_lisp.dir/build
+.PHONY : raspicam_node_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named diagnostic_msgs_generate_messages_nodejs
+
+# Build rule for target.
+diagnostic_msgs_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 diagnostic_msgs_generate_messages_nodejs
+.PHONY : diagnostic_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+diagnostic_msgs_generate_messages_nodejs/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/diagnostic_msgs_generate_messages_nodejs.dir/build.make raspicam_node/CMakeFiles/diagnostic_msgs_generate_messages_nodejs.dir/build
+.PHONY : diagnostic_msgs_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named _raspicam_node_generate_messages_check_deps_MotionVectors
+
+# Build rule for target.
+_raspicam_node_generate_messages_check_deps_MotionVectors: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _raspicam_node_generate_messages_check_deps_MotionVectors
+.PHONY : _raspicam_node_generate_messages_check_deps_MotionVectors
+
+# fast build rule for target.
+_raspicam_node_generate_messages_check_deps_MotionVectors/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/_raspicam_node_generate_messages_check_deps_MotionVectors.dir/build.make raspicam_node/CMakeFiles/_raspicam_node_generate_messages_check_deps_MotionVectors.dir/build
+.PHONY : _raspicam_node_generate_messages_check_deps_MotionVectors/fast
+
+#=============================================================================
+# Target rules for targets named diagnostic_msgs_generate_messages_py
+
+# Build rule for target.
+diagnostic_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 diagnostic_msgs_generate_messages_py
+.PHONY : diagnostic_msgs_generate_messages_py
+
+# fast build rule for target.
+diagnostic_msgs_generate_messages_py/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/diagnostic_msgs_generate_messages_py.dir/build.make raspicam_node/CMakeFiles/diagnostic_msgs_generate_messages_py.dir/build
+.PHONY : diagnostic_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_generate_messages
+
+# Build rule for target.
+raspicam_node_generate_messages: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_generate_messages
+.PHONY : raspicam_node_generate_messages
+
+# fast build rule for target.
+raspicam_node_generate_messages/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_generate_messages.dir/build.make raspicam_node/CMakeFiles/raspicam_node_generate_messages.dir/build
+.PHONY : raspicam_node_generate_messages/fast
+
+#=============================================================================
+# Target rules for targets named diagnostic_msgs_generate_messages_lisp
+
+# Build rule for target.
+diagnostic_msgs_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 diagnostic_msgs_generate_messages_lisp
+.PHONY : diagnostic_msgs_generate_messages_lisp
+
+# fast build rule for target.
+diagnostic_msgs_generate_messages_lisp/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/diagnostic_msgs_generate_messages_lisp.dir/build.make raspicam_node/CMakeFiles/diagnostic_msgs_generate_messages_lisp.dir/build
+.PHONY : diagnostic_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_generate_messages_nodejs
+
+# Build rule for target.
+raspicam_node_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_generate_messages_nodejs
+.PHONY : raspicam_node_generate_messages_nodejs
+
+# fast build rule for target.
+raspicam_node_generate_messages_nodejs/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_generate_messages_nodejs.dir/build.make raspicam_node/CMakeFiles/raspicam_node_generate_messages_nodejs.dir/build
+.PHONY : raspicam_node_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_generate_messages_cpp
+
+# Build rule for target.
+raspicam_node_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_generate_messages_cpp
+.PHONY : raspicam_node_generate_messages_cpp
+
+# fast build rule for target.
+raspicam_node_generate_messages_cpp/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_generate_messages_cpp.dir/build.make raspicam_node/CMakeFiles/raspicam_node_generate_messages_cpp.dir/build
+.PHONY : raspicam_node_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_geneus
+
+# Build rule for target.
+raspicam_node_geneus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_geneus
+.PHONY : raspicam_node_geneus
+
+# fast build rule for target.
+raspicam_node_geneus/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_geneus.dir/build.make raspicam_node/CMakeFiles/raspicam_node_geneus.dir/build
+.PHONY : raspicam_node_geneus/fast
+
+#=============================================================================
+# Target rules for targets named raspicam_node_gennodejs
+
+# Build rule for target.
+raspicam_node_gennodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 raspicam_node_gennodejs
+.PHONY : raspicam_node_gennodejs
+
+# fast build rule for target.
+raspicam_node_gennodejs/fast:
+	$(MAKE) -f raspicam_node/CMakeFiles/raspicam_node_gennodejs.dir/build.make raspicam_node/CMakeFiles/raspicam_node_gennodejs.dir/build
+.PHONY : raspicam_node_gennodejs/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1270,6 +1608,32 @@ help:
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... pruebas_generate_messages_cpp"
 	@echo "... pruebas_generate_messages_nodejs"
+	@echo "... raspicam_node"
+	@echo "... raspicam_node_gencfg"
+	@echo "... raspicam_node_genpy"
+	@echo "... raspicam_node_generate_messages_py"
+	@echo "... diagnostic_msgs_generate_messages_eus"
+	@echo "... diagnostic_msgs_generate_messages_cpp"
+	@echo "... dynamic_reconfigure_generate_messages_nodejs"
+	@echo "... dynamic_reconfigure_gencfg"
+	@echo "... dynamic_reconfigure_generate_messages_cpp"
+	@echo "... raspicam_node_genlisp"
+	@echo "... dynamic_reconfigure_generate_messages_eus"
+	@echo "... raspicam_node_generate_messages_eus"
+	@echo "... dynamic_reconfigure_generate_messages_py"
+	@echo "... compressed_image_transport_gencfg"
+	@echo "... raspicam_node_gencpp"
+	@echo "... dynamic_reconfigure_generate_messages_lisp"
+	@echo "... raspicam_node_generate_messages_lisp"
+	@echo "... diagnostic_msgs_generate_messages_nodejs"
+	@echo "... _raspicam_node_generate_messages_check_deps_MotionVectors"
+	@echo "... diagnostic_msgs_generate_messages_py"
+	@echo "... raspicam_node_generate_messages"
+	@echo "... diagnostic_msgs_generate_messages_lisp"
+	@echo "... raspicam_node_generate_messages_nodejs"
+	@echo "... raspicam_node_generate_messages_cpp"
+	@echo "... raspicam_node_geneus"
+	@echo "... raspicam_node_gennodejs"
 .PHONY : help
 
 

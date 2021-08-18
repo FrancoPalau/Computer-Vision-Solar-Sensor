@@ -8,7 +8,7 @@
 import numpy as np
 import roslib
 import sys
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import Image,CompressedImage
 from cv_bridge import CvBridge, CvBridgeError
 import cv2
 import time
@@ -18,8 +18,10 @@ from pruebas.msg import numsteps
 
 # Create publisher to see result of algorithm.
 pub_sun_center_img = rospy.Publisher('sun_center',Image)
+
+# Create publisher to send PAPs setpoits steps
 pub_numsteps = rospy.Publisher('num_steps_close_loop',numsteps)
-# # Create publisher to send PAPs setpoits steps
+
 # pub_num_steps = rospy.Publisher('num_steps',Image)
 
 precision = 0.04167
@@ -74,74 +76,76 @@ def callback(data):
       print(e)
 
 
-    # Begins Franco Palau's code
-    # No tengo camara entonces pruebo con una imagen de un sol
-    num_pics = 1
+    # Begins Franco Palau's code. Modifed by Tomas Corteggiano to run it on ROS.
+
     list_centers = []
     output = cv_image.copy()
 
     # Our operations on the frame come here
     gray = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
     gray = cv2.blur(gray,(11,11),0)
+    ret, th3 = cv2.threshold(gray, 230, 255, cv2.THRESH_BINARY)
 
- 
-    ret, th3 = cv2.threshold(gray, 250, 255, cv2.THRESH_BINARY)
+    # Publish image filterd to inspect algoritim performance
+    pub_sun_center_img.publish(bridge.cv2_to_imgmsg(th3))
 
-    #cv2.imshow('frame', th3)
-    #cv2.imwrite('frame.png', th3)
 
+    
     rows = gray.shape[1]
     circles = cv2.HoughCircles(th3, cv2.HOUGH_GRADIENT, 1, rows / 4,
                             param1=10, param2=15)
                             # ,minRadius=30, maxRadius=80)
-    # print(th3.shape)
-    if num_pics < 10:
-        # ensure at least some circles were found
-        if circles is not None:
-            # convert the (x, y) coordinates and radius of the circles to integers
-            circles = np.round(circles[0, :]).astype("int")
 
-            draw_circles(circles, output)
+    
+    # ensure at least some circles were found
+    if circles is not None:
 
-            # print(circles)
-
-            # Distance from centre of image to centre of sun
-            distAzi = (-1)*(circles[0][1] - th3.shape[0] // 2)
-            distAlt = (-1)*(circles[0][0] - th3.shape[1] // 2)
-            list_centers.append((distAzi, distAlt))
-            steps_set_points = numsteps()
-            steps_set_points.al,steps_set_points.az = num_steps(get_mean(list_centers))
+        # convert the (x, y) coordinates and radius of the circles to integers
+        circles = np.round(circles[0, :]).astype("int")
+        draw_circles(circles, output)
 
 
-            draw_axis(output, th3, distAzi, distAlt)
+        # Distance from centre of image to centre of sun
+        distAzi = (-1)*(circles[0][1] - th3.shape[0] // 2)
+        distAlt = (-1)*(circles[0][0] - th3.shape[1] // 2)
+        list_centers.append((distAzi, distAlt))
+        steps_set_points = numsteps()
+        steps_set_points.al,steps_set_points.az = num_steps(get_mean(list_centers))
 
-            # show the output image
-            # cv2.imshow("output", np.hstack([output]))
-            # cv2.imwrite('output.png', np.hstack([output]))
-  
-            try:
-                # Use publisher to pusblish the original image with the circle and axies
-                # cv2_to_imgmsg to convert image to msg for ROS
-                pub_sun_center_img.publish(bridge.cv2_to_imgmsg(output, "bgr8"))
-                pub_numsteps.publish(steps_set_points)
-                rospy.loginfo("Sun detected. Entering close loop mode")
-                rospy.set_param('close_loop_flag',True)
-            except CvBridgeError as e:
-                print(e)
 
-        else:
-            rospy.loginfo("Sun not detected")
-            rospy.set_param('close_loop_flag',False)
-            # cv2.imshow('frame', th3)
-            # cv2.imwrite('frame.png', th3)
+        draw_axis(output, th3, distAzi, distAlt)
+
+        # show the output image
+        # cv2.imshow("output", np.hstack([output]))
+        # cv2.imwrite('output.png', np.hstack([output]))
+
+        try: 
+            # Use publisher to pusblish the original image with the circle and axies
+            # cv2_to_imgmsg to convert image to msg for ROS
+            pub_sun_center_img.publish(bridge.cv2_to_imgmsg(output, "bgr8"))
+            pub_numsteps.publish(steps_set_points)
+            rospy.loginfo_throttle(1.0,"Sun detected. Entering close loop mode")
+            
+            #Set parameter value to change to other state on the machine states
+            rospy.set_param('close_loop_flag',True)
+
+        except CvBridgeError as e:
+            print(e)
+
+    else:
+        rospy.loginfo_throttle(1.0,"Sun not detected")
+
+        #Set parameter value to change to other state on the machine states
+        rospy.set_param('close_loop_flag',False)
 
 # Subscriptor definition. 
 def listener():
+
     # Init node with name 'vision_sensor'. 
     rospy.init_node('vision_sensor', anonymous=True,log_level=rospy.DEBUG)
 
     # Create subscriber. Topic name: imagerp, msg: Image, function callback.
-    rospy.Subscriber("imagerp", Image, callback)
+    rospy.Subscriber("raw_image_sun", Image, callback)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

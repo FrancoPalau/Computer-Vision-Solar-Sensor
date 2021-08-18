@@ -11,11 +11,21 @@ import smach
 from smach import user_data
 import smach_ros
 
-
+pub_num_steps_to_uC = rospy.Publisher('num_steps_to_uC',numsteps)
 
 # States definition for states machine
 # Each state is defined by a class, which is inherited from smach's classes library
+class InitState(smach.State):
+    def __init__(self):
+        smach.State.__init__(self,outcomes=['to_open_loop','not_ready_to_start'])
 
+    def execute(self,ud):
+        loopstatus = rospy.get_param("/start_system_flag")
+        if(loopstatus):
+            return 'to_open_loop'
+        else:
+            return 'not_ready_to_start'
+     
 class OpenLoopState(smach.State):
     # Constructor
     def __init__(self, msg_cb=None, output_keys=[], latch=False, timeout=10):
@@ -38,6 +48,8 @@ class OpenLoopState(smach.State):
         print('Waiting for setpoint...')
         timeout_time = rospy.Time.now() + rospy.Duration.from_sec(self.timeout)
         while rospy.Time.now() < timeout_time:
+            if(rospy.get_param("/close_loop_flag")):
+                return 'to_close_loop'
             self.mutex.acquire()
             if self.msg != None:
                 print('Got message.')
@@ -59,8 +71,12 @@ class OpenLoopState(smach.State):
         loopstatus = rospy.get_param("/close_loop_flag")
         if(not loopstatus):
             msg = self.waitForMsg()
+            if(msg == 'to_close_loop'):
+                return 'to_close_loop'
             if msg != None:
+                pub_num_steps_to_uC.publish(msg)
                 return 'succeeded'
+
             else:
                 return 'aborted'
         elif(loopstatus):
@@ -85,6 +101,8 @@ class CloseLoopState(smach.State):
         print('Waiting for setpoint...')
         timeout_time = rospy.Time.now() + rospy.Duration.from_sec(self.timeout)
         while rospy.Time.now() < timeout_time:
+            if(~(rospy.get_param("/close_loop_flag"))):
+                return 'to_open_loop'
             self.mutex.acquire()
             if self.msg != None:
                 print('Got message.')
@@ -106,6 +124,8 @@ class CloseLoopState(smach.State):
         loopstatus = rospy.get_param("/close_loop_flag")
         if(loopstatus):
             msg = self.waitForMsg()
+            if(msg == 'to_open_loop'):
+                return 'to_open_loop'
             if msg != None:
                 return 'succeeded'
             else:
@@ -120,10 +140,14 @@ def main():
     rospy.init_node('SolarStateMachine')
 
 
-    sm = smach.StateMachine(outcomes=['ShottingDown','WaringMode','Standby'])
+    sm = smach.StateMachine(outcomes=['ShottingDown','WaringMode'])
 
     with sm:
-       
+      
+        smach.StateMachine.add('INITSTATE',InitState(),
+                                transitions={'to_open_loop':'OPENLOOPSTATE',
+                                             'not_ready_to_start':'INITSTATE',
+                                              })
         smach.StateMachine.add('OPENLOOPSTATE', OpenLoopState(), 
                                transitions={'succeeded':'OPENLOOPSTATE',
                                             'to_close_loop': 'CLOSELOOPSTATE', 

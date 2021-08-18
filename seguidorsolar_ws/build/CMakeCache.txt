@@ -301,8 +301,23 @@ _gtest_SOURCES:FILEPATH=/usr/src/gtest/src/gtest.cc
 //Path to a file.
 _path_name:FILEPATH=/home/pi/seguidorsolar_ws/src/vision_opencv/image_geometry/test/directed.py
 
+//Path to a library.
+bcmhost_LIBS:FILEPATH=/opt/vc/lib/libbcm_host.so
+
+//The directory containing a CMake configuration file for camera_calibration_parsers.
+camera_calibration_parsers_DIR:PATH=/opt/ros/kinetic/share/camera_calibration_parsers/cmake
+
+//The directory containing a CMake configuration file for camera_info_manager.
+camera_info_manager_DIR:PATH=/opt/ros/kinetic/share/camera_info_manager/cmake
+
 //The directory containing a CMake configuration file for catkin.
 catkin_DIR:PATH=/opt/ros/kinetic/share/catkin/cmake
+
+//The directory containing a CMake configuration file for class_loader.
+class_loader_DIR:PATH=/opt/ros/kinetic/share/class_loader/cmake
+
+//The directory containing a CMake configuration file for compressed_image_transport.
+compressed_image_transport_DIR:PATH=/opt/ros/kinetic/share/compressed_image_transport/cmake
 
 //The directory containing a CMake configuration file for cpp_common.
 cpp_common_DIR:PATH=/opt/ros/kinetic/share/cpp_common/cmake
@@ -321,6 +336,15 @@ cv_bridge_SOURCE_DIR:STATIC=/home/pi/seguidorsolar_ws/src/vision_opencv/cv_bridg
 
 //Dependencies for the target
 cv_bridge_boost_LIB_DEPENDS:STATIC=general;/usr/lib/arm-linux-gnueabihf/libboost_python.so;general;/opt/ros/kinetic/lib/librosconsole.so;general;/opt/ros/kinetic/lib/librosconsole_log4cxx.so;general;/opt/ros/kinetic/lib/librosconsole_backend_interface.so;general;/usr/lib/arm-linux-gnueabihf/liblog4cxx.so;general;/usr/lib/arm-linux-gnueabihf/libboost_regex.so;general;/opt/ros/kinetic/lib/libroscpp_serialization.so;general;/opt/ros/kinetic/lib/librostime.so;general;/opt/ros/kinetic/lib/libcpp_common.so;general;/usr/lib/arm-linux-gnueabihf/libboost_system.so;general;/usr/lib/arm-linux-gnueabihf/libboost_thread.so;general;/usr/lib/arm-linux-gnueabihf/libboost_chrono.so;general;/usr/lib/arm-linux-gnueabihf/libboost_date_time.so;general;/usr/lib/arm-linux-gnueabihf/libboost_atomic.so;general;/usr/lib/arm-linux-gnueabihf/libpthread.so;general;/usr/lib/arm-linux-gnueabihf/libconsole_bridge.so;general;/usr/lib/arm-linux-gnueabihf/libpython2.7.so;general;cv_bridge;
+
+//The directory containing a CMake configuration file for diagnostic_msgs.
+diagnostic_msgs_DIR:PATH=/opt/ros/kinetic/share/diagnostic_msgs/cmake
+
+//The directory containing a CMake configuration file for diagnostic_updater.
+diagnostic_updater_DIR:PATH=/opt/ros/kinetic/share/diagnostic_updater/cmake
+
+//The directory containing a CMake configuration file for dynamic_reconfigure.
+dynamic_reconfigure_DIR:PATH=/opt/ros/kinetic/share/dynamic_reconfigure/cmake
 
 //The directory containing a CMake configuration file for gencpp.
 gencpp_DIR:PATH=/opt/ros/kinetic/share/gencpp/cmake
@@ -401,14 +425,32 @@ image_geometry_LIB_DEPENDS:STATIC=general;opencv_calib3d;general;opencv_core;gen
 //Value Computed by CMake
 image_geometry_SOURCE_DIR:STATIC=/home/pi/seguidorsolar_ws/src/vision_opencv/image_geometry
 
+//The directory containing a CMake configuration file for image_transport.
+image_transport_DIR:PATH=/opt/ros/kinetic/share/image_transport/cmake
+
 //Path to a library.
-lib:FILEPATH=/opt/ros/kinetic/lib/libxmlrpcpp.so
+lib:FILEPATH=/opt/ros/kinetic/lib/libcamera_calibration_parsers.so
+
+//The directory containing a CMake configuration file for message_filters.
+message_filters_DIR:PATH=/opt/ros/kinetic/share/message_filters/cmake
 
 //The directory containing a CMake configuration file for message_generation.
 message_generation_DIR:PATH=/opt/ros/kinetic/share/message_generation/cmake
 
 //The directory containing a CMake configuration file for message_runtime.
 message_runtime_DIR:PATH=/opt/ros/kinetic/share/message_runtime/cmake
+
+//Path to a library.
+mmal_LIBS:FILEPATH=/opt/vc/lib/libmmal.so
+
+//Path to a library.
+mmalcore_LIBS:FILEPATH=/opt/vc/lib/libmmal_core.so
+
+//Path to a library.
+mmalutil_LIBS:FILEPATH=/opt/vc/lib/libmmal_util.so
+
+//Path to a library.
+mmalvcclient_LIBS:FILEPATH=/opt/vc/lib/libmmal_vc_client.so
 
 //The directory containing a CMake configuration file for opencv2.
 opencv2_DIR:PATH=opencv2_DIR-NOTFOUND
@@ -419,11 +461,20 @@ opencv_tests_BINARY_DIR:STATIC=/home/pi/seguidorsolar_ws/build/vision_opencv/ope
 //Value Computed by CMake
 opencv_tests_SOURCE_DIR:STATIC=/home/pi/seguidorsolar_ws/src/vision_opencv/opencv_tests
 
+//The directory containing a CMake configuration file for pluginlib.
+pluginlib_DIR:PATH=/opt/ros/kinetic/share/pluginlib/cmake
+
 //Value Computed by CMake
 pruebas_BINARY_DIR:STATIC=/home/pi/seguidorsolar_ws/build/pruebas
 
 //Value Computed by CMake
 pruebas_SOURCE_DIR:STATIC=/home/pi/seguidorsolar_ws/src/pruebas
+
+//Value Computed by CMake
+raspicam_node_BINARY_DIR:STATIC=/home/pi/seguidorsolar_ws/build/raspicam_node
+
+//Value Computed by CMake
+raspicam_node_SOURCE_DIR:STATIC=/home/pi/seguidorsolar_ws/src/raspicam_node
 
 //The directory containing a CMake configuration file for rosconsole.
 rosconsole_DIR:PATH=/opt/ros/kinetic/share/rosconsole/cmake
@@ -440,6 +491,12 @@ roscpp_traits_DIR:PATH=/opt/ros/kinetic/share/roscpp_traits/cmake
 //The directory containing a CMake configuration file for rosgraph_msgs.
 rosgraph_msgs_DIR:PATH=/opt/ros/kinetic/share/rosgraph_msgs/cmake
 
+//The directory containing a CMake configuration file for roslib.
+roslib_DIR:PATH=/opt/ros/kinetic/share/roslib/cmake
+
+//The directory containing a CMake configuration file for rospack.
+rospack_DIR:PATH=/opt/ros/kinetic/share/rospack/cmake
+
 //The directory containing a CMake configuration file for rospy.
 rospy_DIR:PATH=/opt/ros/kinetic/share/rospy/cmake
 
@@ -451,6 +508,12 @@ sensor_msgs_DIR:PATH=/opt/ros/kinetic/share/sensor_msgs/cmake
 
 //The directory containing a CMake configuration file for std_msgs.
 std_msgs_DIR:PATH=/opt/ros/kinetic/share/std_msgs/cmake
+
+//Path to a library.
+vchostif_LIBS:FILEPATH=/opt/vc/lib/libvchostif.a
+
+//Path to a library.
+vcos_LIBS:FILEPATH=/opt/vc/lib/libvcos.so
 
 //Value Computed by CMake
 vision_opencv_BINARY_DIR:STATIC=/home/pi/seguidorsolar_ws/build/vision_opencv/vision_opencv
@@ -575,7 +638,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=13
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=14
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

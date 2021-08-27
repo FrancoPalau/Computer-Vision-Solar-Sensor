@@ -1,9 +1,17 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-# INPUTS: SETS_POINTS FROM BOTH OPENLOOP OR CLOSELOOP
-# OUTPUTS: NUMS_STEPS TO ROSSERIAL 
+""" Actualmente migrando el proyecto a ROS
+    Autores:
+    - Lautaro Delgado
+    - Franco Palau
+    - Gonzalo Fernández
 
+    Migracion y adaptacion a ROS:
+    - Corteggiano Tomas
+"""  
+
+from pickle import TRUE
 import threading
 from pruebas.msg import numsteps
 import rospy
@@ -11,6 +19,8 @@ import smach
 from smach import user_data
 import smach_ros
 
+
+rospy.set_param('start_system_flag',False)
 pub_num_steps_to_uC = rospy.Publisher('num_steps_to_uC',numsteps)
 
 # States definition for states machine
@@ -69,20 +79,24 @@ class OpenLoopState(smach.State):
 
     def execute(self, ud):
         loopstatus = rospy.get_param("/close_loop_flag")
+        warn = rospy.get_param("/romper_sistema")
+        if(warn):
+            return 'aborted'
         if(not loopstatus):
-            msg = self.waitForMsg()
-            if(msg == 'to_close_loop'):
-                return 'to_close_loop'
-            if msg != None:
-                pub_num_steps_to_uC.publish(msg)
-                return 'succeeded'
-
-            else:
-                return 'aborted'
+            while(True):
+                msg = self.waitForMsg()
+                if(msg == 'to_close_loop'):
+                    return 'to_close_loop'
+                if msg != None:
+                    pub_num_steps_to_uC.publish(msg)
+                else:
+                    return 'aborted'
         elif(loopstatus):
             return 'to_close_loop'
 
 class CloseLoopState(smach.State):
+    
+    # Constructor
     def __init__(self, msg_cb=None, output_keys=[], latch=False, timeout=10):
         smach.State.__init__(self, outcomes=['succeeded','to_open_loop','aborted'],  output_keys=output_keys)
         self.latch = latch
@@ -97,12 +111,11 @@ class CloseLoopState(smach.State):
         self.msg = msg
         self.mutex.release()
 
+    # Function to get a message from topic
     def waitForMsg(self):
         print('Waiting for setpoint...')
         timeout_time = rospy.Time.now() + rospy.Duration.from_sec(self.timeout)
         while rospy.Time.now() < timeout_time:
-            if(~(rospy.get_param("/close_loop_flag"))):
-                return 'to_open_loop'
             self.mutex.acquire()
             if self.msg != None:
                 print('Got message.')
@@ -110,28 +123,34 @@ class CloseLoopState(smach.State):
                 
                 rospy.loginfo("Az number of steps %d",message.az)
                 rospy.loginfo("Al number of steps %d",message.al)
-                
+                pub_num_steps_to_uC.publish(message)
                 if not self.latch:
                     self.msg = None
 
                 self.mutex.release()
                 return message
             self.mutex.release()
+            if(~(rospy.get_param("/close_loop_flag"))):
+                return 'to_open_loop'
         print('Timeout!')
         return None
 
+    # execute() What is done in the state. Careful with the return of state.
     def execute(self, ud):
         loopstatus = rospy.get_param("/close_loop_flag")
         if(loopstatus):
-            msg = self.waitForMsg()
-            if(msg == 'to_open_loop'):
-                return 'to_open_loop'
-            if msg != None:
-                return 'succeeded'
-            else:
-                return 'aborted'
+            while(True):
+                msg = self.waitForMsg()
+                if(msg == 'to_open_loop'):
+                    return 'to_open_loop'
+                if msg != None:
+                    pub_num_steps_to_uC.publish(msg)
+                    return 'succeeded'
+                else:
+                    return 'aborted'
         elif(not loopstatus):
             return 'to_open_loop'
+
 
 
 
@@ -140,25 +159,35 @@ def main():
     rospy.init_node('SolarStateMachine')
 
 
-    sm = smach.StateMachine(outcomes=['ShottingDown','WaringMode'])
+    # Top level state machine
+    level1_state_machine = smach.StateMachine(outcomes=['ShottingDown','WaringMode'])
 
-    with sm:
+    with level1_state_machine:
       
+        # Must add homming state inside INIT_STATE
         smach.StateMachine.add('INITSTATE',InitState(),
                                 transitions={'to_open_loop':'OPENLOOPSTATE',
                                              'not_ready_to_start':'INITSTATE',
                                               })
+
+        # Open loop state. System start in this state until, camera detect the sun.
         smach.StateMachine.add('OPENLOOPSTATE', OpenLoopState(), 
                                transitions={'succeeded':'OPENLOOPSTATE',
                                             'to_close_loop': 'CLOSELOOPSTATE', 
                                             'aborted':'WaringMode'})
+
+        # Close loop state. System enter this state if camera detect the sun. Refresh every 5s the loop.
         smach.StateMachine.add('CLOSELOOPSTATE', CloseLoopState(), 
                         transitions={'succeeded':'CLOSELOOPSTATE',
                                     'to_open_loop': 'OPENLOOPSTATE', 
                                     'aborted':'WaringMode'})
 
+        # If the wind speed exceed the maximun value, the system transist to other machine state (Level 0)
+  
 
-    outcome = sm.execute()
+
+    outcome = level1_state_machine.execute()
+
 
 
 if __name__ == '__main__':

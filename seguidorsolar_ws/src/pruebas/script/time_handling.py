@@ -1,6 +1,17 @@
 #!/usr/bin/python
 # coding=utf-8
 
+""" Actualmente migrando el proyecto a ROS
+    Autores:
+    - Lautaro Delgado
+    - Franco Palau
+    - Gonzalo Fernández
+
+    Migracion y adaptacion a ROS:
+    - Corteggiano Tomas
+""" 
+
+
 # INPUTS: TIME
 # OUTPUTS: FLAGS AND SECONDS COUNTED 
 
@@ -164,7 +175,7 @@ def time_process():
                 num_steps_open_loop.az = 0
             
             pub_num_steps_open_loop.publish(num_steps_open_loop)
-            rospy.sleep(5.0)
+            rospy.sleep(2.0)
 
         else:
             rospy.loginfo("Entering close loop")
@@ -172,7 +183,7 @@ def time_process():
             num_steps_open_loop.al = 0
             num_steps_open_loop.az = 0
             pub_num_steps_open_loop.publish(num_steps_open_loop)
-            rospy.sleep(5.0)
+            rospy.sleep(2.0)
         
 
 def data_process(flag_date,flag_hour,flag_setpoint,second):
@@ -272,6 +283,7 @@ def get_coord(file_name, lines_count):
 
 
 if __name__ == "__main__":
-
+    rospy.sleep(5.0)
+    rospy.set_param('start_system_flag',True)
     time_process()
 

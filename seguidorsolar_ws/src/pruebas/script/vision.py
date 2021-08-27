@@ -1,6 +1,17 @@
 #!/usr/bin/env python
 # coding=utf-8
 
+""" Actualmente migrando el proyecto a ROS
+    Autores:
+    - Lautaro Delgado
+    - Franco Palau
+    - Gonzalo Fernández
+
+    Migracion y adaptacion a ROS:
+    - Corteggiano Tomas
+""" 
+
+
 # INPUTS: CAMERA IMAGE FROM TOPIC
 # OUTPUTS: PAPs STEPS + IMAGE WITH CENTER AND AXIES 
 
@@ -22,10 +33,8 @@ pub_sun_center_img = rospy.Publisher('sun_center',Image)
 # Create publisher to send PAPs setpoits steps
 pub_numsteps = rospy.Publisher('num_steps_close_loop',numsteps)
 
-# pub_num_steps = rospy.Publisher('num_steps',Image)
 
 precision = 0.04167
-# precision_2 = 0.03125
 grades_per_step_alt = 7.5/8  # Grades per step divided microsteps mode
 grades_per_step_azi = 7.5/8
 
@@ -63,6 +72,7 @@ def draw_axis(output, th3, distAzi, distAlt):
 
 # Definition of callback function of subscriber. The arg, is the image that camera is 
 # recording, which is the topic this node is subscribed. 
+
 def callback(data):
     # IMPORTANT
     # cv_bridge is a ROS package used to convert images from ROS to OpenCV or vis versa.
@@ -88,8 +98,6 @@ def callback(data):
 
     # Publish image filterd to inspect algoritim performance
     pub_sun_center_img.publish(bridge.cv2_to_imgmsg(th3))
-
-
     
     rows = gray.shape[1]
     circles = cv2.HoughCircles(th3, cv2.HOUGH_GRADIENT, 1, rows / 4,
@@ -97,7 +105,7 @@ def callback(data):
                             # ,minRadius=30, maxRadius=80)
 
     
-    # ensure at least some circles were found
+    # Ensure at least some circles were found
     if circles is not None:
 
         # convert the (x, y) coordinates and radius of the circles to integers
@@ -109,6 +117,7 @@ def callback(data):
         distAzi = (-1)*(circles[0][1] - th3.shape[0] // 2)
         distAlt = (-1)*(circles[0][0] - th3.shape[1] // 2)
         list_centers.append((distAzi, distAlt))
+        
         steps_set_points = numsteps()
         steps_set_points.al,steps_set_points.az = num_steps(get_mean(list_centers))
 

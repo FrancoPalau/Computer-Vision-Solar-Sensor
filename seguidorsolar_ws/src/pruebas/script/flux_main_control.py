@@ -19,11 +19,14 @@ import smach
 from smach import user_data
 import smach_ros
 
-
+# Flag to start system
 rospy.set_param('start_system_flag',False)
+
+#Create publisher to send number of steps to uC
 pub_num_steps_to_uC = rospy.Publisher('num_steps_to_uC',numsteps)
 
 # States definition for states machine
+
 # Each state is defined by a class, which is inherited from smach's classes library
 class InitState(smach.State):
     def __init__(self):
@@ -35,7 +38,8 @@ class InitState(smach.State):
             return 'to_open_loop'
         else:
             return 'not_ready_to_start'
-     
+
+# Open Loop Class  
 class OpenLoopState(smach.State):
     # Constructor
     def __init__(self, msg_cb=None, output_keys=[], latch=False, timeout=10):
@@ -94,6 +98,7 @@ class OpenLoopState(smach.State):
         elif(loopstatus):
             return 'to_close_loop'
 
+# Close Loop Class 
 class CloseLoopState(smach.State):
     
     # Constructor
